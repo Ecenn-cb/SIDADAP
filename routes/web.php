@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -21,6 +21,11 @@ Route::middleware('role:Owner')->group(function (){
     Route::get('/owner', function (){
         return view('owner');
     });
+});
+
+// CRUD Announcement
+Route::middleware(['auth','role:Owner|Admin'])->group(function () {
+    Route::resource('announcements', AnnouncementController::class);
 });
 
 require __DIR__.'/auth.php';
