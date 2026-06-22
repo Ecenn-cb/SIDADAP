@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('animals', function(Blueprint $table){
+        Schema::create('animals', function (Blueprint $table) {
             $table->id();
-            
+
+            $table->string('animal_code')->unique();
+            $table->string('name', 100);
+
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('cage_id');
             $table->unsignedBigInteger('grade_id');
@@ -21,14 +24,21 @@ return new class extends Migration
             $table->string('gender', 10);
             $table->integer('weight');
             $table->integer('age');
+
             $table->string('image', 255);
+
+            $table->enum('status', [
+                  'available',
+                  'reserved',
+                  'sold'
+            ])->default('available');
 
             $table->unsignedBigInteger('description_id');
             $table->unsignedBigInteger('user_id');
 
             $table->timestamps();
 
-            //foreign
+            // foreign key tetap sama
             $table->foreign('category_id')
                   ->references('id')
                   ->on('animal_categories')
@@ -53,7 +63,7 @@ return new class extends Migration
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
-        });
+            });
     }
 
     /**
