@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Price extends Model
+{
+    use HasFactory;
+
+    protected $table = 'prices';
+
+    protected $fillable = [
+        'package_id',
+        'box_count',
+        'female_price',
+        'male_price',
+    ];
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class, 'package_id');
+    }
+}

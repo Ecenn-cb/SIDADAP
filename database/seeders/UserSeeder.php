@@ -26,6 +26,13 @@ class UserSeeder extends Seeder
             'username' => 'asta',
             'password' => Hash::make('password'),
             'email' => 'asta@gmail.com'
-        ]);
+        ])->assignRole('Admin');
+
+        User::create([
+            'full_name' => 'Yuno Hoki',
+            'username' => 'yuno',
+            'password' => Hash::make('password'),
+            'email' => 'yuno@gmail.com'
+        ])->assignRole('Penjaga Kandang');
     }
 }
