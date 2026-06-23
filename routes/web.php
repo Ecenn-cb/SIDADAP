@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AnimalCategoryController;
+use App\Http\Controllers\AnimalGradeController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -32,6 +33,11 @@ Route::middleware(['auth','role:Owner|Admin'])->group(function () {
 // CRUD Category
 Route::middleware(['auth','role:Owner'])->group(function () {
     Route::resource('animal-categories',AnimalCategoryController::class);
+});
+
+// CRUD Grade
+Route::middleware(['auth','role:Owner'])->group(function () {
+    Route::resource('animal-grades',AnimalGradeController::class);
 });
 
 require __DIR__.'/auth.php';
