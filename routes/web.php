@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AnimalCategoryController;
 use App\Http\Controllers\AnimalGradeController;
+use App\Http\Controllers\CageController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -38,6 +39,11 @@ Route::middleware(['auth','role:Owner'])->group(function () {
 // CRUD Grade
 Route::middleware(['auth','role:Owner'])->group(function () {
     Route::resource('animal-grades',AnimalGradeController::class);
+});
+
+// CRUD Cages
+Route::middleware(['auth','role:Owner'])->group(function () {
+    Route::resource('cages',CageController::class);
 });
 
 require __DIR__.'/auth.php';
