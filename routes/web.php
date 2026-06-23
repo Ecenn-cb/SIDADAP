@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AnimalCategoryController;
 use App\Http\Controllers\AnimalGradeController;
 use App\Http\Controllers\CageController;
+use App\Http\Controllers\PackageController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -44,6 +45,11 @@ Route::middleware(['auth','role:Owner'])->group(function () {
 // CRUD Cages
 Route::middleware(['auth','role:Owner'])->group(function () {
     Route::resource('cages',CageController::class);
+});
+
+// CRUD Packages
+Route::middleware(['auth','role:Owner'])->group(function () {
+    Route::resource('packages',PackageController::class);
 });
 
 require __DIR__.'/auth.php';
