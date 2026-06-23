@@ -4,6 +4,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AnimalCategoryController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -26,6 +27,11 @@ Route::middleware('role:Owner')->group(function (){
 // CRUD Announcement
 Route::middleware(['auth','role:Owner|Admin'])->group(function () {
     Route::resource('announcements', AnnouncementController::class);
+});
+
+// CRUD Category
+Route::middleware(['auth','role:Owner'])->group(function () {
+    Route::resource('animal-categories',AnimalCategoryController::class);
 });
 
 require __DIR__.'/auth.php';
