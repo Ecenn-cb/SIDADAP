@@ -26,10 +26,13 @@ class AnimalSeeder extends Seeder
             'age' => 2,
 
             'image' => 'kambing1.jpg',
+            'qr_code'=> 'qrcodes/KMB001.png',
+
+            'entry_date' => '2026-06-24',
 
             'status' => 'available',
 
-            'description_id' => 1,
+            'description' => 'Kambing sehat, aktif, dan cocok untuk aqiqah.',
             'user_id' => 1,
         ]);
     }

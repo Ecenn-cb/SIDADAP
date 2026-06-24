@@ -26,6 +26,9 @@ return new class extends Migration
             $table->integer('age');
 
             $table->string('image', 255);
+            $table->string('qr_code')->nullable();
+
+            $table->date('entry_date')->nullable();
 
             $table->enum('status', [
                   'available',
@@ -33,7 +36,7 @@ return new class extends Migration
                   'sold'
             ])->default('available');
 
-            $table->unsignedBigInteger('description_id');
+            $table->text('description')->nullable();
             $table->unsignedBigInteger('user_id');
 
             $table->timestamps();
@@ -52,11 +55,6 @@ return new class extends Migration
             $table->foreign('grade_id')
                   ->references('id')
                   ->on('animal_grades')
-                  ->onDelete('cascade');
-
-            $table->foreign('description_id')
-                  ->references('id')
-                  ->on('animal_descriptions')
                   ->onDelete('cascade');
 
             $table->foreign('user_id')

@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
 
             AnimalCategoriesSeeder::class,
             AnimalGradesSeeder::class,
-            AnimalDescriptionSeeder::class,
 
             CagesSeeder::class,
 
