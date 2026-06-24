@@ -8,6 +8,7 @@ use App\Http\Controllers\AnimalCategoryController;
 use App\Http\Controllers\AnimalGradeController;
 use App\Http\Controllers\CageController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\PriceController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -47,9 +48,50 @@ Route::middleware(['auth','role:Owner'])->group(function () {
     Route::resource('cages',CageController::class);
 });
 
-// CRUD Packages
-Route::middleware(['auth','role:Owner'])->group(function () {
-    Route::resource('packages',PackageController::class);
+// CRUD Packages & Harga
+Route::middleware([
+    'auth',
+    'role:Owner'
+])->group(function () {
+
+    // CRUD Package
+    Route::resource('packages', PackageController::class);
+
+    // Daftar harga per paket
+    Route::get(
+        '/packages/{package}/prices',
+        [PriceController::class, 'packagePrices']
+    )->name('packages.prices');
+
+    // Form tambah harga
+    Route::get(
+        '/packages/{package}/prices/create',
+        [PriceController::class, 'create']
+    )->name('packages.prices.create');
+
+    // Simpan harga
+    Route::post(
+        '/packages/{package}/prices',
+        [PriceController::class, 'store']
+    )->name('packages.prices.store');
+
+    // Edit harga
+    Route::get(
+        '/prices/{price}/edit',
+        [PriceController::class, 'edit']
+    )->name('prices.edit');
+
+    // Update harga
+    Route::put(
+        '/prices/{price}',
+        [PriceController::class, 'update']
+    )->name('prices.update');
+
+    // Hapus harga
+    Route::delete(
+        '/prices/{price}',
+        [PriceController::class, 'destroy']
+    )->name('prices.destroy');
 });
 
 require __DIR__.'/auth.php';

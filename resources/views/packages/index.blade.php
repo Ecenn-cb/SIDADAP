@@ -79,6 +79,14 @@
 
                             </form>
 
+                            <a
+                                href="{{ route('packages.prices', $package->id) }}"
+                                class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded">
+
+                                Kelola Harga
+
+                            </a>
+
                         </div>
 
                     </td>
