@@ -37,12 +37,10 @@ class CageController extends Controller
     {
         $request->validate([
             'name' => 'required|max:20',
-            'total_animals' => 'required|integer|min:0',
         ]);
 
         Cage::create([
             'name' => $request->name,
-            'total_animals' => $request->total_animals,
             'user_id' => auth()->id(),
         ]);
 
@@ -86,12 +84,10 @@ class CageController extends Controller
     {
         $request->validate([
             'name' => 'required|max:20',
-            'total_animals' => 'required|integer|min:0',
         ]);
 
         $cage->update([
             'name' => $request->name,
-            'total_animals' => $request->total_animals,
         ]);
 
         return redirect()

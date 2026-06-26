@@ -15,7 +15,6 @@ class CagesSeeder extends Seeder
     {
         Cage::create([
             'name' => 'Kandang A',
-            'total_animals' => 5,
             'user_id' => 1,
             'created_at' => now()
         ]);

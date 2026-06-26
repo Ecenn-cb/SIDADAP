@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('cages', function (Blueprint $table){
             $table->id();
             $table->string('name', 20);
-            $table->integer('total_animals');
 
             $table->unsignedBigInteger('user_id');
 

@@ -33,7 +33,6 @@
                     <tr>
                         <th class="p-3 text-left">No</th>
                         <th class="p-3 text-left">Nama Kandang</th>
-                        <th class="p-3 text-left">Jumlah Hewan</th>
                         <th class="p-3 text-left">Dibuat Oleh</th>
                         <th class="p-3 text-center">Aksi</th>
                     </tr>
@@ -52,10 +51,6 @@
 
                             <td class="p-3">
                                 {{ $cage->name }}
-                            </td>
-
-                            <td class="p-3">
-                                {{ $cage->total_animals }}
                             </td>
 
                             <td class="p-3">
