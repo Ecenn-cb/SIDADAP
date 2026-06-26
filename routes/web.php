@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AnimalCategoryController;
+use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AnimalGradeController;
 use App\Http\Controllers\CageController;
 use App\Http\Controllers\PackageController;
@@ -92,6 +93,11 @@ Route::middleware([
         '/prices/{price}',
         [PriceController::class, 'destroy']
     )->name('prices.destroy');
+});
+
+// CRUD Animals
+Route::middleware(['auth','role:Owner|Admin|Penjaga Kandang'])->group(function () {
+    Route::resource('animals',AnimalController::class);
 });
 
 require __DIR__.'/auth.php';

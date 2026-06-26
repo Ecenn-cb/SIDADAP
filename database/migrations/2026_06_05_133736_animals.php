@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('weight');
             $table->integer('age');
 
-            $table->string('image', 255);
+            $table->string('image', 255)->nullable();
             $table->string('qr_code')->nullable();
 
             $table->date('entry_date')->nullable();

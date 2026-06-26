@@ -12,15 +12,23 @@ class Animal extends Model
     protected $fillable = [
         'animal_code',
         'name',
+
         'category_id',
         'cage_id',
         'grade_id',
+
         'gender',
         'weight',
         'age',
+
         'image',
+        'qr_code',
+
+        'entry_date',
+
         'status',
-        'description_id',
+        'description',
+
         'user_id',
     ];
 
@@ -37,11 +45,6 @@ class Animal extends Model
     public function grade()
     {
         return $this->belongsTo(AnimalGrade::class, 'grade_id');
-    }
-
-    public function description()
-    {
-        return $this->belongsTo(AnimalDescription::class, 'description_id');
     }
 
     public function user()
