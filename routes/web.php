@@ -10,6 +10,12 @@ use App\Http\Controllers\AnimalGradeController;
 use App\Http\Controllers\CageController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\PriceController;
+use App\Http\Controllers\UserController;
+use App\Models\Animal;
+use App\Models\Announcement;
+use App\Models\Package;
+use App\Models\Cage;
+use App\Models\User;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -99,5 +105,22 @@ Route::middleware([
 Route::middleware(['auth','role:Owner|Admin|Penjaga Kandang'])->group(function () {
     Route::resource('animals',AnimalController::class);
 });
+
+// CRUD User (For Owner)
+Route::middleware(['auth','role:Owner'])->group(function () {
+    Route::resource('users', UserController::class);
+});
+
+// Dashboard Route
+Route::get('/dashboard', function () {
+    return view('dashboard', [
+        'animals' => Animal::count(),
+        'announcements' => Announcement::count(),
+        'packages' => Package::count(),
+        'totalCages' => Cage::count(), // jumlah kandang
+        'users' => User::count(),
+        'cages' => Cage::withCount('animals')->get(), // data kandang
+    ]);
+})->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
