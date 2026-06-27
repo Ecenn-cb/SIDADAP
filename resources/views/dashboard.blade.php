@@ -24,11 +24,19 @@
 
     <!-- Statistik -->
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2
+        @role('Owner')
+            xl:grid-cols-5
+        @else
+            xl:grid-cols-4
+        @endrole
+        gap-6">
 
-        <div class="bg-white rounded-3xl shadow p-6">
+        <!-- Total Hewan -->
 
-            <p class="text-gray-500">
+        <div class="bg-white rounded-3xl shadow hover:shadow-lg transition p-6">
+
+            <p class="text-gray-500 text-sm">
 
                 Total Hewan
 
@@ -42,9 +50,11 @@
 
         </div>
 
-        <div class="bg-white rounded-3xl shadow p-6">
+        <!-- Total Kandang -->
 
-            <p class="text-gray-500">
+        <div class="bg-white rounded-3xl shadow hover:shadow-lg transition p-6">
+
+            <p class="text-gray-500 text-sm">
 
                 Total Kandang
 
@@ -58,9 +68,11 @@
 
         </div>
 
-        <div class="bg-white rounded-3xl shadow p-6">
+        <!-- Total Paket -->
 
-            <p class="text-gray-500">
+        <div class="bg-white rounded-3xl shadow hover:shadow-lg transition p-6">
+
+            <p class="text-gray-500 text-sm">
 
                 Total Paket
 
@@ -74,9 +86,11 @@
 
         </div>
 
-        <div class="bg-white rounded-3xl shadow p-6">
+        <!-- Announcement -->
 
-            <p class="text-gray-500">
+        <div class="bg-white rounded-3xl shadow hover:shadow-lg transition p-6">
+
+            <p class="text-gray-500 text-sm">
 
                 Announcement
 
@@ -92,9 +106,11 @@
 
         @role('Owner')
 
-        <div class="bg-white rounded-3xl shadow p-6">
+        <!-- Total User -->
 
-            <p class="text-gray-500">
+        <div class="bg-white rounded-3xl shadow hover:shadow-lg transition p-6">
+
+            <p class="text-gray-500 text-sm">
 
                 Total User
 

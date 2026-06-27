@@ -17,7 +17,7 @@ use App\Models\Package;
 use App\Models\Cage;
 use App\Models\User;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
