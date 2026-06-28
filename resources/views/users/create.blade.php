@@ -1,229 +1,248 @@
 <x-app-layout>
 
-<div class="py-6 px-6">
+    <div class="py-8">
 
-    <div class="mb-6">
+        <div class="max-w-3xl mx-auto">
 
-        <h1 class="text-3xl font-bold text-gray-800">
-
-            Tambah User
-
-        </h1>
-
-        <p class="text-gray-500 mt-2">
-
-            Tambahkan akun baru beserta role yang akan digunakan.
-
-        </p>
-
-    </div>
-
-    <div class="bg-white rounded-3xl shadow p-8">
-
-        <form
-            action="{{ route('users.store') }}"
-            method="POST">
-
-            @csrf
-
-            <!-- Nama -->
-
-            <div class="mb-5">
-
-                <label class="block mb-2 font-medium">
-
-                    Nama Lengkap
-
-                </label>
-
-                <input
-                    type="text"
-                    name="name"
-                    value="{{ old('name') }}"
-                    class="w-full rounded-xl border-gray-300 focus:border-green-500 focus:ring-green-500">
-
-                @error('name')
-
-                    <p class="text-red-500 text-sm mt-1">
-
-                        {{ $message }}
-
-                    </p>
-
-                @enderror
-
-            </div>
-
-            <!-- Username -->
-
-            <div class="mb-5">
-
-                <label class="block mb-2 font-medium">
-
-                    Username
-
-                </label>
-
-                <input
-                    type="text"
-                    name="username"
-                    value="{{ old('username') }}"
-                    class="w-full rounded-xl border-gray-300 focus:border-green-500 focus:ring-green-500">
-
-                @error('username')
-
-                    <p class="text-red-500 text-sm mt-1">
-
-                        {{ $message }}
-
-                    </p>
-
-                @enderror
-
-            </div>
-
-            <!-- Email -->
-
-            <div class="mb-5">
-
-                <label class="block mb-2 font-medium">
-
-                    Email
-
-                </label>
-
-                <input
-                    type="email"
-                    name="email"
-                    value="{{ old('email') }}"
-                    class="w-full rounded-xl border-gray-300 focus:border-green-500 focus:ring-green-500">
-
-                @error('email')
-
-                    <p class="text-red-500 text-sm mt-1">
-
-                        {{ $message }}
-
-                    </p>
-
-                @enderror
-
-            </div>
-
-            <!-- Password -->
-
-            <div class="mb-5">
-
-                <label class="block mb-2 font-medium">
-
-                    Password
-
-                </label>
-
-                <input
-                    type="password"
-                    name="password"
-                    class="w-full rounded-xl border-gray-300 focus:border-green-500 focus:ring-green-500">
-
-                @error('password')
-
-                    <p class="text-red-500 text-sm mt-1">
-
-                        {{ $message }}
-
-                    </p>
-
-                @enderror
-
-            </div>
-
-            <!-- Konfirmasi Password -->
-
-            <div class="mb-5">
-
-                <label class="block mb-2 font-medium">
-
-                    Konfirmasi Password
-
-                </label>
-
-                <input
-                    type="password"
-                    name="password_confirmation"
-                    class="w-full rounded-xl border-gray-300 focus:border-green-500 focus:ring-green-500">
-
-            </div>
-
-            <!-- Role -->
+            <!-- Header -->
 
             <div class="mb-8">
 
-                <label class="block mb-2 font-medium">
+                <h1 class="text-3xl font-bold text-gray-800">
 
-                    Role
+                    Tambah User
 
-                </label>
+                </h1>
 
-                <select
-                    name="role"
-                    class="w-full rounded-xl border-gray-300 focus:border-green-500 focus:ring-green-500">
+                <p class="text-gray-500 mt-2">
 
-                    <option value="">
+                    Tambahkan akun baru beserta role yang akan digunakan.
 
-                        -- Pilih Role --
-
-                    </option>
-
-                    @foreach($roles as $role)
-
-                        <option
-                            value="{{ $role->name }}"
-                            {{ old('role') == $role->name ? 'selected' : '' }}>
-
-                            {{ $role->name }}
-
-                        </option>
-
-                    @endforeach
-
-                </select>
-
-                @error('role')
-
-                    <p class="text-red-500 text-sm mt-1">
-
-                        {{ $message }}
-
-                    </p>
-
-                @enderror
+                </p>
 
             </div>
 
-            <div class="flex gap-3">
+            <!-- Card -->
 
-                <a
-                    href="{{ route('users.index') }}"
-                    class="px-5 py-3 rounded-xl bg-gray-300 hover:bg-gray-400">
+            <div class="bg-white rounded-3xl shadow-lg p-8">
 
-                    Batal
+                <form
+                    action="{{ route('users.store') }}"
+                    method="POST">
 
-                </a>
+                    @csrf
 
-                <button
-                    type="submit"
-                    class="px-5 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white">
+                    <div class="space-y-5">
 
-                    Simpan User
+                        <!-- Nama Lengkap -->
 
-                </button>
+                        <div>
+
+                            <label class="block mb-2 font-semibold text-gray-700">
+
+                                Nama Lengkap
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="full_name"
+                                value="{{ old('full_name') }}"
+                                placeholder="Masukkan nama lengkap..."
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]">
+
+                            @error('full_name')
+
+                                <p class="text-red-500 text-sm mt-2">
+
+                                    {{ $message }}
+
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+                        <!-- Username -->
+
+                        <div>
+
+                            <label class="block mb-2 font-semibold text-gray-700">
+
+                                Username
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="username"
+                                value="{{ old('username') }}"
+                                placeholder="Masukkan username..."
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]">
+
+                            @error('username')
+
+                                <p class="text-red-500 text-sm mt-2">
+
+                                    {{ $message }}
+
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+                        <!-- Email -->
+
+                        <div>
+
+                            <label class="block mb-2 font-semibold text-gray-700">
+
+                                Email
+
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                placeholder="Masukkan email..."
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]">
+
+                            @error('email')
+
+                                <p class="text-red-500 text-sm mt-2">
+
+                                    {{ $message }}
+
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+                        <!-- Password -->
+
+                        <div>
+
+                            <label class="block mb-2 font-semibold text-gray-700">
+
+                                Password
+
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Masukkan password..."
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]">
+
+                            @error('password')
+
+                                <p class="text-red-500 text-sm mt-2">
+
+                                    {{ $message }}
+
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+                        <!-- Konfirmasi Password -->
+
+                        <div>
+
+                            <label class="block mb-2 font-semibold text-gray-700">
+
+                                Konfirmasi Password
+
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password_confirmation"
+                                placeholder="Ulangi password..."
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]">
+
+                        </div>
+
+                        <!-- Role -->
+
+                        <div>
+
+                            <label class="block mb-2 font-semibold text-gray-700">
+
+                                Role
+
+                            </label>
+
+                            <select
+                                name="role"
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]">
+
+                                <option value="">
+
+                                    -- Pilih Role --
+
+                                </option>
+
+                                @foreach($roles as $role)
+
+                                    <option
+                                        value="{{ $role->name }}"
+                                        {{ old('role') == $role->name ? 'selected' : '' }}>
+
+                                        {{ $role->name }}
+
+                                    </option>
+
+                                @endforeach
+
+                            </select>
+
+                            @error('role')
+
+                                <p class="text-red-500 text-sm mt-2">
+
+                                    {{ $message }}
+
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+                    </div>
+
+                    <!-- Tombol -->
+
+                    <div class="flex justify-end gap-3 mt-8">
+
+                        <a
+                            href="{{ route('users.index') }}"
+                            class="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition">
+
+                            Batal
+
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="px-6 py-3 rounded-xl bg-[#0FA958] hover:bg-[#0d944f] text-white font-semibold transition">
+
+                            Simpan User
+
+                        </button>
+
+                    </div>
+
+                </form>
 
             </div>
 
-        </form>
+        </div>
 
     </div>
-
-</div>
 
 </x-app-layout>

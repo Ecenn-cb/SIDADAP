@@ -14,21 +14,28 @@ class AnimalController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $animals = Animal::with([
             'category',
             'grade',
-            'cage',
-            'user'
-        ])
-        ->latest()
-        ->get();
+            'cage'
+        ]);
 
-        return view(
-            'animals.index',
-            compact('animals')
-        );
+        if ($request->filled('cage')) {
+            $animals->where('cage_id', $request->cage);
+        }
+
+        $animals = $animals->get();
+
+        $cages = Cage::orderByRaw(
+            'CAST(SUBSTRING_INDEX(name, " ", -1) AS UNSIGNED)'
+        )->get();
+
+        return view('animals.index', compact(
+            'animals',
+            'cages'
+        ));
     }
 
     /**

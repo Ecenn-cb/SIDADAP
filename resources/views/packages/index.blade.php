@@ -1,103 +1,178 @@
 <x-app-layout>
 
-    <div class="py-6 px-6">
+    <div class="py-8">
 
-        <div class="flex justify-between mb-6">
+        <div class="max-w-7xl mx-auto">
 
-            <h1 class="text-3xl font-bold">
-                Data Paket
-            </h1>
+            <!-- Header -->
 
-            <a
-                href="{{ route('packages.create') }}"
-                class="bg-blue-500 text-white px-4 py-2 rounded">
+            <div class="flex justify-between items-center mb-8">
 
-                + Tambah Paket
+                <div>
 
-            </a>
+                    <h1 class="text-3xl font-bold text-gray-800">
+
+                        Data Paket
+
+                    </h1>
+
+                    <p class="text-gray-500 mt-2">
+
+                        Kelola seluruh paket aqiqah beserta harga.
+
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ route('packages.create') }}"
+                    class="bg-[#0FA958] hover:bg-[#0d944f] text-white px-5 py-3 rounded-xl font-semibold transition">
+
+                    + Tambah Paket
+
+                </a>
+
+            </div>
+
+            @if(session('success'))
+
+                <div class="mb-6 bg-green-100 border border-green-300 text-green-700 px-5 py-4 rounded-xl">
+
+                    {{ session('success') }}
+
+                </div>
+
+            @endif
+
+            <!-- Table -->
+
+            <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+
+                <table class="w-full text-sm text-gray-700">
+
+                    <thead class="bg-gray-100 uppercase text-xs text-gray-600">
+
+                        <tr>
+
+                            <th class="px-6 py-4 text-center">
+
+                                No
+
+                            </th>
+
+                            <th class="px-6 py-4 text-left">
+
+                                Nama Paket
+
+                            </th>
+
+                            <th class="px-6 py-4 text-left">
+
+                                Deskripsi
+
+                            </th>
+
+                            <th class="px-6 py-4 text-center">
+
+                                Aksi
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @forelse($packages as $package)
+
+                            <tr class="border-b hover:bg-gray-50 transition">
+
+                                <td class="px-6 py-4 text-center font-semibold">
+
+                                    {{ $loop->iteration }}
+
+                                </td>
+
+                                <td class="px-6 py-4 font-medium">
+
+                                    {{ $package->name }}
+
+                                </td>
+
+                                <td class="px-6 py-4 text-gray-500">
+
+                                    {{ $package->description ?: '-' }}
+
+                                </td>
+
+                                <td class="px-6 py-4">
+
+                                    <div class="flex justify-center gap-2 flex-wrap">
+
+                                        <a
+                                            href="{{ route('packages.prices', $package->id) }}"
+                                            class="bg-[#0FA958] hover:bg-[#0d944f] text-white px-4 py-2 rounded-xl text-sm transition">
+
+                                            Kelola Harga
+
+                                        </a>
+
+                                        <a
+                                            href="{{ route('packages.edit', $package->id) }}"
+                                            class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-xl text-sm transition">
+
+                                            Edit
+
+                                        </a>
+
+                                        <form
+                                            action="{{ route('packages.destroy', $package->id) }}"
+                                            method="POST">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button
+                                                type="submit"
+                                                onclick="return confirm('Yakin ingin menghapus paket ini?')"
+                                                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl text-sm transition">
+
+                                                Hapus
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+
+                                <td
+                                    colspan="4"
+                                    class="py-10 text-center text-gray-500">
+
+                                    Belum ada data paket.
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </div>
-
-        <table class="w-full bg-white shadow rounded">
-
-            <thead class="bg-gray-100">
-
-                <tr>
-                    <th class="p-3">No</th>
-                    <th class="p-3">Nama Paket</th>
-                    <th class="p-3">Deskripsi</th>
-                    <th class="p-3">Aksi</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                @foreach($packages as $package)
-
-                <tr class="border-b">
-
-                    <td class="p-3">
-                        {{ $loop->iteration }}
-                    </td>
-
-                    <td class="p-3">
-                        {{ $package->name }}
-                    </td>
-
-                    <td class="p-3">
-                        {{ $package->description }}
-                    </td>
-
-                    <td class="p-3">
-
-                        <div class="flex justify-center gap-2">
-
-                            <a
-                                href="{{ route('packages.edit', $package->id) }}"
-                                class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded">
-
-                                Edit
-
-                            </a>
-
-                            <form
-                                action="{{ route('packages.destroy', $package->id) }}"
-                                method="POST">
-
-                                @csrf
-                                @method('DELETE')
-
-                                <button
-                                    type="submit"
-                                    onclick="return confirm('Yakin ingin menghapus paket ini?')"
-                                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded">
-
-                                    Hapus
-
-                                </button>
-
-                            </form>
-
-                            <a
-                                href="{{ route('packages.prices', $package->id) }}"
-                                class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded">
-
-                                Kelola Harga
-
-                            </a>
-
-                        </div>
-
-                    </td>
-
-                </tr>
-
-                @endforeach
-
-            </tbody>
-
-        </table>
 
     </div>
 

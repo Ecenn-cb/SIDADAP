@@ -113,14 +113,19 @@ Route::middleware(['auth','role:Owner'])->group(function () {
 
 // Dashboard Route
 Route::get('/dashboard', function () {
+
     return view('dashboard', [
-        'animals' => Animal::count(),
+        'animals'       => Animal::count(),
         'announcements' => Announcement::count(),
-        'packages' => Package::count(),
-        'totalCages' => Cage::count(), // jumlah kandang
-        'users' => User::count(),
-        'cages' => Cage::withCount('animals')->get(), // data kandang
+        'packages'      => Package::count(),
+        'totalCages'    => Cage::count(),
+        'users'         => User::count(),
+
+        'cages' => Cage::withCount('animals')
+            ->orderByRaw('CAST(SUBSTRING_INDEX(name, " ", -1) AS UNSIGNED)')
+            ->get(),
     ]);
+
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

@@ -92,14 +92,14 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'name' => 'required|max:100',
+            'full_name' => 'required|max:100',
             'username' => 'required|string|max:100|unique:users,username,' . $user->id,
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|min:8|confirmed',
             'role' => 'required',
         ]);
 
-        $user->full_name = $request->name;
+        $user->full_name = $request->full_name;
         $user->username = $request->username;
         $user->email = $request->email;
 

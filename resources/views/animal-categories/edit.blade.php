@@ -1,68 +1,124 @@
 <x-app-layout>
 
-    <div class="py-6 px-6">
+    <div class="py-8">
 
-        <h1 class="text-3xl font-bold mb-6">
-            Edit Kategori Hewan
-        </h1>
+        <div class="max-w-3xl mx-auto">
 
-        <div class="bg-white shadow rounded-lg p-6">
+            <!-- Header -->
 
-            <form
-                action="{{ route('animal-categories.update', $animal_category->id) }}"
-                method="POST">
+            <div class="mb-8">
 
-                @csrf
-                @method('PUT')
+                <h1 class="text-3xl font-bold text-gray-800">
 
-                <div class="mb-4">
+                    Edit Kategori Hewan
 
-                    <label class="block mb-2 font-medium">
-                        Nama Kategori
-                    </label>
+                </h1>
 
-                    <input
-                        type="text"
-                        name="name"
-                        value="{{ old('name', $animal_category->name) }}"
-                        class="w-full border rounded-lg p-2">
+                <p class="text-gray-500 mt-2">
 
-                    @error('name')
-                        <p class="text-red-500 text-sm">
-                            {{ $message }}
-                        </p>
-                    @enderror
+                    Perbarui informasi kategori hewan.
 
-                </div>
+                </p>
 
-                <div class="mb-4">
+            </div>
 
-                    <label class="block mb-2 font-medium">
-                        Deskripsi
-                    </label>
+            <!-- Card -->
 
-                    <textarea
-                        name="description"
-                        rows="4"
-                        class="w-full border rounded-lg p-2">{{ old('description', $animal_category->description) }}</textarea>
+            <div class="bg-white rounded-3xl shadow-lg p-8">
 
-                    @error('description')
-                        <p class="text-red-500 text-sm">
-                            {{ $message }}
-                        </p>
-                    @enderror
+                <form
+                    action="{{ route('animal-categories.update', $animal_category->id) }}"
+                    method="POST">
 
-                </div>
+                    @csrf
+                    @method('PUT')
 
-                <button
-                    type="submit"
-                    class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg">
+                    <div class="space-y-5">
 
-                    Update
+                        <!-- Nama Kategori -->
 
-                </button>
+                        <div>
 
-            </form>
+                            <label class="block mb-2 font-semibold text-gray-700">
+
+                                Nama Kategori
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                value="{{ old('name', $animal_category->name) }}"
+                                placeholder="Masukkan nama kategori..."
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]">
+
+                            @error('name')
+
+                                <p class="text-red-500 text-sm mt-2">
+
+                                    {{ $message }}
+
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+                        <!-- Deskripsi -->
+
+                        <div>
+
+                            <label class="block mb-2 font-semibold text-gray-700">
+
+                                Deskripsi
+
+                            </label>
+
+                            <textarea
+                                name="description"
+                                rows="5"
+                                placeholder="Masukkan deskripsi kategori..."
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]">{{ old('description', $animal_category->description) }}</textarea>
+
+                            @error('description')
+
+                                <p class="text-red-500 text-sm mt-2">
+
+                                    {{ $message }}
+
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+                    </div>
+
+                    <!-- Tombol -->
+
+                    <div class="flex justify-end gap-3 mt-8">
+
+                        <a
+                            href="{{ route('animal-categories.index') }}"
+                            class="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition">
+
+                            Batal
+
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold transition">
+
+                            Update Data
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
 
         </div>
 

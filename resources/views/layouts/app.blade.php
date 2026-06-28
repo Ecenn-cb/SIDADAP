@@ -13,7 +13,7 @@
         name="csrf-token"
         content="{{ csrf_token() }}">
 
-    <title>SIDADAP - Teman Aqiqah</title>
+    <title>Teman Aqiqah</title>
 
     <!-- Font -->
 

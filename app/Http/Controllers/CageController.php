@@ -12,14 +12,12 @@ class CageController extends Controller
      */
     public function index()
     {
-        $cages = Cage::with('user')
-            ->latest()
+        $cages = Cage::with(['user'])
+            ->withCount('animals')
+            ->orderBy('name', 'asc')
             ->get();
 
-        return view(
-            'cages.index',
-            compact('cages')
-        );
+        return view('cages.index', compact('cages'));
     }
 
     /**

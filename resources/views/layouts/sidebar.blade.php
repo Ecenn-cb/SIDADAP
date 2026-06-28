@@ -34,6 +34,28 @@
 
     <nav class="flex-1 mt-6 px-4 space-y-2">
 
+        <!-- Welcome -->
+        <x-sidebar-link
+            :href="route('home')"
+            :active="request()->routeIs('home')">
+
+            <svg xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+                stroke="currentColor"
+                class="w-6 h-6">
+
+                <path stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.25 12 11.204 3.046a1.125 1.125 0 0 1 1.592 0L21.75 12M4.5 9.75V19.5A1.5 1.5 0 0 0 6 21h12a1.5 1.5 0 0 0 1.5-1.5V9.75"/>
+
+            </svg>
+
+            <span>Welcome</span>
+
+        </x-sidebar-link>
+
         <!-- Dashboard -->
 
         <x-sidebar-link
@@ -55,28 +77,6 @@
             </svg>
 
             <span>Dashboard</span>
-
-        </x-sidebar-link>
-
-        <!-- Welcome -->
-        <x-sidebar-link
-            :href="route('home')"
-            :active="request()->routeIs('home')">
-
-            <svg xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.8"
-                stroke="currentColor"
-                class="w-6 h-6">
-
-                <path stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M2.25 12 11.204 3.046a1.125 1.125 0 0 1 1.592 0L21.75 12M4.5 9.75V19.5A1.5 1.5 0 0 0 6 21h12a1.5 1.5 0 0 0 1.5-1.5V9.75"/>
-
-            </svg>
-
-            <span>Welcome</span>
 
         </x-sidebar-link>
 
@@ -329,16 +329,18 @@
 
     <div class="border-t border-green-400 p-5">
 
-        <div class="flex items-center gap-3">
+        <a
+            href="{{ route('profile.edit') }}"
+            class="flex items-center gap-3 rounded-2xl p-3 hover:bg-green-600 transition">
 
             <div
                 class="w-12 h-12 rounded-full bg-white text-[#0FA958] flex items-center justify-center text-xl font-bold">
 
-                {{ strtoupper(substr(auth()->user()->full_name,0,1)) }}
+                {{ strtoupper(substr(auth()->user()->full_name, 0, 1)) }}
 
             </div>
 
-            <div>
+            <div class="flex-1">
 
                 <h3 class="font-semibold">
 
@@ -352,9 +354,15 @@
 
                 </p>
 
+                <p class="text-xs text-green-200 mt-1">
+
+                    Lihat Profil →
+
+                </p>
+
             </div>
 
-        </div>
+        </a>
 
         <form
             method="POST"

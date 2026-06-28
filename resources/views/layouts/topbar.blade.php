@@ -107,12 +107,14 @@
 
             <!-- Profile -->
 
-            <div class="flex items-center gap-3">
+            <a
+                href="{{ route('profile.edit') }}"
+                class="flex items-center gap-3 rounded-2xl px-3 py-2 hover:bg-gray-100 transition">
 
                 <div
                     class="w-12 h-12 rounded-full bg-[#0FA958] text-white flex items-center justify-center text-lg font-bold shadow">
 
-                    {{ strtoupper(substr(auth()->user()->full_name,0,1)) }}
+                    {{ strtoupper(substr(auth()->user()->full_name, 0, 1)) }}
 
                 </div>
 
@@ -132,7 +134,7 @@
 
                 </div>
 
-            </div>
+            </a>
 
         </div>
 

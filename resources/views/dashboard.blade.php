@@ -310,7 +310,7 @@
                         <div class="mt-6">
 
                             <a
-                                href="{{ route('animals.index') }}"
+                                href="{{ route('animals.index', ['cage' => $cage->id]) }}"
                                 class="text-[#0FA958] font-semibold hover:underline">
 
                                 Lihat Hewan →

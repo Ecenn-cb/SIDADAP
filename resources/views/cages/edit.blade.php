@@ -1,49 +1,96 @@
 <x-app-layout>
 
-    <div class="py-6 px-6">
+    <div class="py-8">
 
-        <h1 class="text-3xl font-bold mb-6">
-            Edit Kandang
-        </h1>
+        <div class="max-w-3xl mx-auto">
 
-        <div class="bg-white shadow rounded-lg p-6">
+            <!-- Header -->
 
-            <form
-                action="{{ route('cages.update', $cage->id) }}"
-                method="POST">
+            <div class="mb-8">
 
-                @csrf
-                @method('PUT')
+                <h1 class="text-3xl font-bold text-gray-800">
 
-                <div class="mb-4">
+                    Edit Kandang
 
-                    <label class="block mb-2 font-medium">
-                        Nama Kandang
-                    </label>
+                </h1>
 
-                    <input
-                        type="text"
-                        name="name"
-                        value="{{ old('name', $cage->name) }}"
-                        class="w-full border rounded-lg p-2">
+                <p class="text-gray-500 mt-2">
 
-                    @error('name')
-                        <p class="text-red-500 text-sm">
-                            {{ $message }}
-                        </p>
-                    @enderror
+                    Perbarui informasi kandang.
 
-                </div>
+                </p>
 
-                <button
-                    type="submit"
-                    class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg">
+            </div>
 
-                    Update
+            <!-- Card -->
 
-                </button>
+            <div class="bg-white rounded-3xl shadow-lg p-8">
 
-            </form>
+                <form
+                    action="{{ route('cages.update', $cage->id) }}"
+                    method="POST">
+
+                    @csrf
+                    @method('PUT')
+
+                    <div class="space-y-5">
+
+                        <!-- Nama Kandang -->
+
+                        <div>
+
+                            <label class="block mb-2 font-semibold text-gray-700">
+
+                                Nama Kandang
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                value="{{ old('name', $cage->name) }}"
+                                placeholder="Contoh: Kandang A"
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]">
+
+                            @error('name')
+
+                                <p class="text-red-500 text-sm mt-2">
+
+                                    {{ $message }}
+
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+                    </div>
+
+                    <!-- Tombol -->
+
+                    <div class="flex justify-end gap-3 mt-8">
+
+                        <a
+                            href="{{ route('cages.index') }}"
+                            class="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition">
+
+                            Batal
+
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold transition">
+
+                            Update Data
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
 
         </div>
 

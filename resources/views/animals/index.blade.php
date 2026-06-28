@@ -4,17 +4,54 @@
 
         <div class="flex justify-between items-center mb-6">
 
+            <!-- Judul -->
             <h1 class="text-3xl font-bold">
                 Data Hewan
             </h1>
 
-            <a
-                href="{{ route('animals.create') }}"
-                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+            <!-- Filter + Tombol -->
+            <div class="flex items-center gap-4">
 
-                + Tambah Hewan
+                <form
+                    action="{{ route('animals.index') }}"
+                    method="GET">
 
-            </a>
+                    <select
+                        name="cage"
+                        onchange="this.form.submit()"
+                        class="w-56 border border-gray-300 rounded-xl px-4 pr-10 py-2
+                            focus:ring-2 focus:ring-[#0FA958]
+                            focus:border-[#0FA958]">
+
+                        <option value="">
+                            Semua Kandang
+                        </option>
+
+                        @foreach($cages as $cage)
+
+                            <option
+                                value="{{ $cage->id }}"
+                                {{ request('cage') == $cage->id ? 'selected' : '' }}>
+
+                                {{ $cage->name }}
+
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                </form>
+
+                <a
+                    href="{{ route('animals.create') }}"
+                    class="bg-[#0FA958] hover:bg-[#0d944f] text-white px-5 py-2 rounded-xl transition">
+
+                    + Tambah Hewan
+
+                </a>
+
+            </div>
 
         </div>
 
@@ -26,21 +63,23 @@
 
         <div class="bg-white shadow rounded-lg overflow-x-auto">
 
-            <table class="w-full">
+            <table class="w-full text-sm text-gray-700">
 
-                <thead class="bg-gray-100">
+                <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
 
                     <tr>
-                        <th class="p-3">Kode</th>
-                        <th class="p-3">Foto</th>
-                        <th class="p-3">Nama</th>
-                        <th class="p-3">Kategori</th>
-                        <th class="p-3">Grade</th>
-                        <th class="p-3">Kandang</th>
-                        <th class="p-3">Gender</th>
-                        <th class="p-3">Berat</th>
-                        <th class="p-3">Status</th>
-                        <th class="p-3">Aksi</th>
+
+                        <th class="px-6 py-4 text-center">Kode</th>
+                        <th class="px-6 py-4 text-center">Foto</th>
+                        <th class="px-6 py-4 text-left">Nama</th>
+                        <th class="px-6 py-4 text-center">Kategori</th>
+                        <th class="px-6 py-4 text-center">Grade</th>
+                        <th class="px-6 py-4 text-center">Kandang</th>
+                        <th class="px-6 py-4 text-center">Gender</th>
+                        <th class="px-6 py-4 text-center">Berat</th>
+                        <th class="px-6 py-4 text-center">Status</th>
+                        <th class="px-6 py-4 text-center">Aksi</th>
+
                     </tr>
 
                 </thead>
@@ -49,88 +88,138 @@
 
                     @forelse($animals as $animal)
 
-                        <tr class="border-b">
+                    <tr class="border-b hover:bg-gray-50 transition">
 
-                            <td class="p-3">
-                                {{ $animal->animal_code }}
-                            </td>
+                        <td class="px-6 py-4 text-center font-semibold">
 
-                            <td class="p-3">
+                            {{ $animal->animal_code }}
+
+                        </td>
+
+                        <td class="px-6 py-4">
+
+                            <div class="flex justify-center">
+
                                 <img
                                     src="{{ asset('storage/'.$animal->image) }}"
-                                    class="w-20 h-20 object-cover rounded">
-                            </td>
+                                    class="w-16 h-16 rounded-xl object-cover shadow">
 
-                            <td class="p-3">
-                                {{ $animal->name }}
-                            </td>
+                            </div>
 
-                            <td class="p-3">
-                                {{ $animal->category->name }}
-                            </td>
+                        </td>
 
-                            <td class="p-3">
-                                {{ $animal->grade->name }}
-                            </td>
+                        <td class="px-6 py-4 font-medium">
 
-                            <td class="p-3">
-                                {{ $animal->cage->name }}
-                            </td>
+                            {{ $animal->name }}
 
-                            <td class="p-3">
-                                {{ $animal->gender }}
-                            </td>
+                        </td>
 
-                            <td class="p-3">
-                                {{ $animal->weight }} Kg
-                            </td>
+                        <td class="px-6 py-4 text-center">
 
-                            <td class="p-3">
-                                {{ ucfirst($animal->status) }}
-                            </td>
+                            {{ $animal->category->name }}
 
-                            <td class="p-3">
+                        </td>
 
-                                <div class="flex gap-2">
+                        <td class="px-6 py-4 text-center">
 
-                                    <a
-                                        href="{{ route('animals.edit',$animal->id) }}"
-                                        class="bg-yellow-500 text-white px-3 py-1 rounded">
+                            {{ $animal->grade->name }}
 
-                                        Edit
+                        </td>
 
-                                    </a>
+                        <td class="px-6 py-4 text-center">
 
-                                    <form
-                                        action="{{ route('animals.destroy',$animal->id) }}"
-                                        method="POST">
+                            {{ $animal->cage->name }}
 
-                                        @csrf
-                                        @method('DELETE')
+                        </td>
 
-                                        <button
-                                            onclick="return confirm('Yakin hapus data?')"
-                                            class="bg-red-500 text-white px-3 py-1 rounded">
+                        <td class="px-6 py-4 text-center">
 
-                                            Hapus
+                            {{ $animal->gender }}
 
-                                        </button>
+                        </td>
 
-                                    </form>
+                        <td class="px-6 py-4 text-center">
 
-                                </div>
+                            {{ $animal->weight }} Kg
 
-                            </td>
+                        </td>
 
-                        </tr>
+                        <td class="px-6 py-4 text-center">
+
+                            @if($animal->status == 'available')
+
+                                <span class="px-3 py-1 rounded-full text-xs bg-green-100 text-green-700">
+
+                                    Available
+
+                                </span>
+
+                            @elseif($animal->status == 'reserved')
+
+                                <span class="px-3 py-1 rounded-full text-xs bg-yellow-100 text-yellow-700">
+
+                                    Reserved
+
+                                </span>
+
+                            @else
+
+                                <span class="px-3 py-1 rounded-full text-xs bg-red-100 text-red-700">
+
+                                    Sold
+
+                                </span>
+
+                            @endif
+
+                        </td>
+
+                        <td class="px-6 py-4">
+
+                            <div class="flex justify-center gap-2">
+
+                                <a
+                                    href="{{ route('animals.edit',$animal->id) }}"
+                                    class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-2 rounded-lg text-sm transition">
+
+                                    Edit
+
+                                </a>
+
+                                <form
+                                    action="{{ route('animals.destroy',$animal->id) }}"
+                                    method="POST">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        onclick="return confirm('Yakin hapus data?')"
+                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-sm transition">
+
+                                        Hapus
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
 
                     @empty
 
-                        <tr>
-                            <td colspan="10" class="text-center p-4">
-                                Belum ada data hewan.
-                            </td>
-                        </tr>
+                    <tr>
+
+                        <td colspan="10" class="text-center py-10 text-gray-500">
+
+                            Belum ada data hewan.
+
+                        </td>
+
+                    </tr>
 
                     @endforelse
 
