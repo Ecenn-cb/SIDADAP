@@ -178,6 +178,13 @@
 
                             <div class="flex justify-center gap-2">
 
+                                <a href="{{ route('animals.detail', $animal->id) }}"
+                                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg">
+
+                                    Detail
+
+                                </a>
+
                                 <a
                                     href="{{ route('animals.edit',$animal->id) }}"
                                     class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-2 rounded-lg text-sm transition">

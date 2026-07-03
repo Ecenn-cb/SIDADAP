@@ -106,6 +106,9 @@ Route::middleware(['auth','role:Owner|Admin|Penjaga Kandang'])->group(function (
     Route::resource('animals',AnimalController::class);
 });
 
+Route::get('/animals/{animal}/detail', [AnimalController::class, 'detail'])
+    ->name('animals.detail');
+
 // CRUD User (For Owner)
 Route::middleware(['auth','role:Owner'])->group(function () {
     Route::resource('users', UserController::class);

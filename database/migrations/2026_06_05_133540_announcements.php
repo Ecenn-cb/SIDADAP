@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 50);
             $table->string('description', 255);
             $table->string('image', 255);
-            $table->string('status', 10);
+            $table->string('status', 30);
 
             $table->unsignedBigInteger('user_id');
 

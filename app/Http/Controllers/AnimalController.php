@@ -273,4 +273,9 @@ class AnimalController extends Controller
                 'Data hewan berhasil dihapus.'
             );
     }
+
+    public function detail(Animal $animal)
+    {
+        return view('animals.detail_index', compact('animal'));
+    }
 }

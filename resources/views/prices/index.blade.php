@@ -1,134 +1,186 @@
 <x-app-layout>
 
-    <div class="py-6 px-6">
+    <div class="py-8">
 
-        <div class="flex justify-between items-center mb-6">
+        <div class="max-w-7xl mx-auto">
 
-            <div>
-                <h1 class="text-3xl font-bold">
-                    Harga {{ $package->name }}
-                </h1>
+            <!-- Header -->
 
-                <p class="text-gray-500">
-                    {{ $package->description }}
-                </p>
+            <div class="flex justify-between items-center mb-8">
+
+                <div>
+
+                    <h1 class="text-3xl font-bold text-gray-800">
+
+                        Harga {{ $package->name }}
+
+                    </h1>
+
+                    <p class="text-gray-500 mt-2">
+
+                        {{ $package->description }}
+
+                    </p>
+
+                </div>
+
+                <div class="flex gap-3">
+
+                    <a
+                        href="{{ route('packages.index') }}"
+                        class="px-5 py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition">
+
+                        Kembali
+
+                    </a>
+
+                    <a
+                        href="{{ route('packages.prices.create', $package->id) }}"
+                        class="bg-[#0FA958] hover:bg-[#0d944f] text-white px-5 py-3 rounded-xl font-semibold transition">
+
+                        + Tambah Harga
+
+                    </a>
+
+                </div>
+
             </div>
 
-            <a
-                href="{{ route('packages.index') }}"
-                class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">
+            @if(session('success'))
 
-                Kembali
+                <div class="mb-6 bg-green-100 border border-green-300 text-green-700 px-5 py-4 rounded-xl">
 
-            </a>
+                    {{ session('success') }}
 
-            <a
-                href="{{ route('packages.prices.create', $package->id) }}"
-                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                </div>
 
-                + Tambah Harga
+            @endif
 
-            </a>
+            <!-- Table -->
 
-        </div>
+            <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
 
-        @if(session('success'))
-            <div class="bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
+                <table class="w-full text-sm text-gray-700">
 
-        <div class="bg-white shadow rounded-lg overflow-hidden">
-
-            <table class="w-full">
-
-                <thead class="bg-gray-100">
-
-                    <tr>
-                        <th class="p-3 text-left">No</th>
-                        <th class="p-3 text-left">Jumlah Box</th>
-                        <th class="p-3 text-left">Anak Perempuan (1 Ekor)</th>
-                        <th class="p-3 text-left">Anak Laki-Laki (2 Ekor)</th>
-                        <th class="p-3 text-center">Aksi</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    @forelse($prices as $price)
-
-                        <tr class="border-b hover:bg-gray-50">
-
-                            <td class="p-3">
-                                {{ $loop->iteration }}
-                            </td>
-
-                            <td class="p-3">
-                                {{ $price->box_count }}
-                            </td>
-
-                            <td class="p-3">
-                                Rp {{ number_format($price->female_price,0,',','.') }}
-                            </td>
-
-                            <td class="p-3">
-                                Rp {{ number_format($price->male_price,0,',','.') }}
-                            </td>
-
-                            <td class="p-3">
-
-                                <div class="flex justify-center gap-2">
-
-                                    <a
-                                        href="{{ route('prices.edit', $price->id) }}"
-                                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded">
-
-                                        Edit
-
-                                    </a>
-
-                                    <form
-                                        action="{{ route('prices.destroy', $price->id) }}"
-                                        method="POST">
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            onclick="return confirm('Yakin ingin menghapus harga ini?')"
-                                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded">
-
-                                            Hapus
-
-                                        </button>
-
-                                    </form>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    @empty
+                    <thead class="bg-gray-100 uppercase text-xs text-gray-600">
 
                         <tr>
 
-                            <td colspan="5" class="text-center p-6 text-gray-500">
+                            <th class="px-6 py-4 text-center">
+                                No
+                            </th>
 
-                                Belum ada data harga.
+                            <th class="px-6 py-4 text-center">
+                                Jumlah Box
+                            </th>
 
-                            </td>
+                            <th class="px-6 py-4 text-center">
+                                Anak Perempuan (1 Ekor)
+                            </th>
+
+                            <th class="px-6 py-4 text-center">
+                                Anak Laki-Laki (2 Ekor)
+                            </th>
+
+                            <th class="px-6 py-4 text-center">
+                                Aksi
+                            </th>
 
                         </tr>
 
-                    @endforelse
+                    </thead>
 
-                </tbody>
+                    <tbody>
 
-            </table>
+                        @forelse($prices as $price)
+
+                            <tr class="border-b hover:bg-gray-50 transition">
+
+                                <td class="px-6 py-4 text-center font-semibold">
+
+                                    {{ $loop->iteration }}
+
+                                </td>
+
+                                <td class="px-6 py-4 text-center">
+
+                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+
+                                        {{ $price->box_count }} Box
+
+                                    </span>
+
+                                </td>
+
+                                <td class="px-6 py-4 text-center font-semibold text-green-700">
+
+                                    Rp {{ number_format($price->female_price,0,',','.') }}
+
+                                </td>
+
+                                <td class="px-6 py-4 text-center font-semibold text-blue-700">
+
+                                    Rp {{ number_format($price->male_price,0,',','.') }}
+
+                                </td>
+
+                                <td class="px-6 py-4">
+
+                                    <div class="flex justify-center gap-2">
+
+                                        <a
+                                            href="{{ route('prices.edit', $price->id) }}"
+                                            class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-xl text-sm transition">
+
+                                            Edit
+
+                                        </a>
+
+                                        <form
+                                            action="{{ route('prices.destroy', $price->id) }}"
+                                            method="POST">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button
+                                                type="submit"
+                                                onclick="return confirm('Yakin ingin menghapus harga ini?')"
+                                                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl text-sm transition">
+
+                                                Hapus
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+
+                                <td
+                                    colspan="5"
+                                    class="py-10 text-center text-gray-500">
+
+                                    Belum ada data harga.
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </div>
 
