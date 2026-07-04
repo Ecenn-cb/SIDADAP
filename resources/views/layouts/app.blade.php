@@ -28,6 +28,8 @@
         'resources/js/app.js'
     ])
 
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}">
+
 </head>
 
 <body class="bg-[#F5F7FA] font-[Poppins] overflow-hidden">
@@ -58,6 +60,69 @@
         </div>
 
     </div>
+
+    <script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const btn = document.getElementById('notificationButton');
+        const dropdown = document.getElementById('notificationDropdown');
+
+        if(btn){
+
+            btn.addEventListener('click', function(e){
+
+                e.stopPropagation();
+
+                dropdown.classList.toggle('hidden');
+
+                // Jika dropdown dibuka
+                if(!dropdown.classList.contains('hidden')){
+
+                    fetch("{{ route('notifications.read') }}", {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+
+                            "Accept": "application/json"
+
+                        }
+
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        if(data.success){
+
+                            // Hilangkan badge merah
+                            const badge = document.getElementById('notificationBadge');
+
+                            if(badge){
+                                badge.remove();
+                            }
+
+                        }
+
+                    });
+
+                }
+
+            });
+
+            document.addEventListener('click', function(){
+
+                dropdown.classList.add('hidden');
+
+            });
+
+        }
+
+    });
+
+    </script>
 
 </body>
 

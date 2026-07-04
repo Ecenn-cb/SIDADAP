@@ -6,6 +6,7 @@ use App\Models\Announcement;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
+use App\Helpers\ActivityLogger;
 
 class AnnouncementController extends Controller
 {
@@ -38,13 +39,19 @@ class AnnouncementController extends Controller
         $image = $request->file('image')
             ->store('announcements', 'public');
 
-        Announcement::create([
+        $announcement = Announcement::create([
             'title' => $request->title,
             'description' => $request->description,
             'image' => $image,
             'status' => $request->status,
             'user_id' => auth()->id(),
         ]);
+
+        ActivityLogger::log(
+            'Announcement',
+            'Create',
+            'Menambahkan announcement "' . $announcement->title . '"'
+        );
 
         return redirect()
             ->route('announcements.index')
@@ -100,6 +107,12 @@ class AnnouncementController extends Controller
 
         $announcement->update($data);
 
+        ActivityLogger::log(
+            'Announcement',
+            'Update',
+            'Mengubah announcement "' . $announcement->title . '"'
+        );
+
         return redirect()
             ->route('announcements.index')
             ->with('success', 'Pengumuman berhasil diperbarui.');
@@ -115,7 +128,14 @@ class AnnouncementController extends Controller
                 ->delete($announcement->image);
         }
 
+        $announcementTitle = $announcement->title;
         $announcement->delete();
+
+        ActivityLogger::log(
+            'Announcement',
+            'Delete',
+            'Menghapus announcement "' . $announcementTitle . '"'
+        );
 
         return redirect()
             ->route('announcements.index')

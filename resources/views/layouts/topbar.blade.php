@@ -61,11 +61,13 @@
 
             <!-- Notification -->
 
+            <div class="relative">
+
             <button
+                id="notificationButton"
                 class="relative bg-gray-100 hover:bg-gray-200 rounded-xl p-3 transition">
 
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
+                <svg xmlns="http://www.w3.org/2000/svg"
                     class="w-6 h-6 text-gray-600"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -98,12 +100,84 @@
 
                 </svg>
 
-                <span
-                    class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-red-500">
+                @if($unreadNotifications > 0)
+                    <span
+                        id="notificationBadge"
+                        class="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">
 
-                </span>
+                        {{ $unreadNotifications }}
+
+                    </span>
+                @endif
 
             </button>
+
+            <!-- Dropdown -->
+            <div
+                id="notificationDropdown"
+                class="hidden absolute right-0 mt-3 w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50">
+
+                <!-- Header -->
+                <div class="px-5 py-4 border-b bg-gray-50 sticky top-0">
+
+                    <h3 class="font-bold text-gray-800">
+                        Riwayat Aktivitas
+                    </h3>
+
+                </div>
+
+                <!-- Isi Notifikasi -->
+                <div class="max-h-[420px] overflow-y-auto">
+
+                    @forelse($notifications as $log)
+
+                        <div class="px-5 py-4 border-b hover:bg-gray-50 transition">
+
+                            <div class="flex items-start gap-3">
+
+                                @if($log->action == 'Create')
+                                    <span class="text-green-600 text-lg">🟢</span>
+                                @elseif($log->action == 'Update')
+                                    <span class="text-yellow-500 text-lg">🟡</span>
+                                @else
+                                    <span class="text-red-500 text-lg">🔴</span>
+                                @endif
+
+                                <div class="flex-1">
+
+                                    <p class="font-semibold text-gray-800">
+                                        {{ $log->user->full_name }}
+                                    </p>
+
+                                    <p class="text-sm text-gray-500">
+                                        {{ $log->description }}
+                                    </p>
+
+                                    <small class="text-gray-400">
+                                        {{ $log->created_at->diffForHumans() }}
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @empty
+
+                        <div class="py-8 text-center text-gray-500">
+
+                            Belum ada aktivitas.
+
+                        </div>
+
+                    @endforelse
+
+                </div>
+
+            </div>
+
+        </div>
 
             <!-- Profile -->
 

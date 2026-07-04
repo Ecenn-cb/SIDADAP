@@ -8,6 +8,7 @@ use App\Models\Cage;
 use App\Models\AnimalGrade;
 use App\Models\AnimalCategory;
 use Illuminate\Support\Facades\Storage;
+use App\Helpers\ActivityLogger;
 
 class AnimalController extends Controller
 {
@@ -108,7 +109,7 @@ class AnimalController extends Controller
             STR_PAD_LEFT
         );
 
-        Animal::create([
+        $animal = Animal::create([
             'animal_code' => $animalCode,
 
             'name' => $request->name,
@@ -134,6 +135,12 @@ class AnimalController extends Controller
 
             'user_id' => auth()->id(),
         ]);
+
+        ActivityLogger::log(
+            'Animal',
+            'Create',
+            'Menambahkan hewan "' . $animal->name . '"'
+        );
 
         return redirect()
             ->route('animals.index')
@@ -234,6 +241,12 @@ class AnimalController extends Controller
         'description' => $request->description,
     ]);
 
+    ActivityLogger::log(
+        'Animal',
+        'Update',
+        'Mengubah data hewan "' . $animal->name . '"'
+    );
+
     return redirect()
         ->route('animals.index')
         ->with(
@@ -264,7 +277,14 @@ class AnimalController extends Controller
 
         }
 
+        $animalName = $animal->name;
         $animal->delete();
+
+        ActivityLogger::log(
+            'Animal',
+            'Delete',
+            'Menghapus hewan "' . $animalName . '"'
+        );
 
         return redirect()
             ->route('animals.index')

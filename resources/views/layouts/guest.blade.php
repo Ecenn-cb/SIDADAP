@@ -27,6 +27,8 @@
     'resources/js/app.js'
 ])
 
+<link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}">
+
 </head>
 
 <body class="font-[Poppins] bg-[#F4F7F9] overflow-hidden">
