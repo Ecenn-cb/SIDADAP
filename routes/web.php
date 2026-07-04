@@ -12,13 +12,14 @@ use App\Http\Controllers\CageController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
 use App\Models\Animal;
 use App\Models\Announcement;
 use App\Models\Package;
 use App\Models\Cage;
 use App\Models\User;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [WelcomeController::class,'index'])->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
