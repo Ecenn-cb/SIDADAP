@@ -80,8 +80,8 @@
                     </p>
 
                     <a
-                        href="{{ route('website.animal.detail',$animal->id) }}"
-                        class="mt-6 inline-block w-full text-center bg-[#0FA958] text-white py-3 rounded-xl">
+                        href="{{ route('website.animal.detail', $animal->animal_code) }}"
+                        class="mt-6 inline-block w-full text-center bg-[#0FA958] hover:bg-[#0d944f] text-white py-3 rounded-xl transition">
 
                         Lihat Detail
 

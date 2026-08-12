@@ -13,9 +13,36 @@ class AnimalGradesSeeder extends Seeder
      */
     public function run(): void
     {
-        AnimalGrade::create([
-            'name' => 'Merah',
-            'description' => '5kg - 10kg'
+        AnimalGrade::insert([
+
+            [
+                'name' => 'BIRU',
+                'description' => 'Seperti Grade Kuning (Jantan)',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'name' => 'KUNING',
+                'description' => 'Berat 27 - 30 KG',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'name' => 'MERAH',
+                'description' => 'Berat 16 - 25 KG',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'name' => 'HIJAU',
+                'description' => 'Berat 10 - 15 KG',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
         ]);
     }
 }

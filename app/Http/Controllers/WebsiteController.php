@@ -5,14 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Animal;
 use App\Models\Announcement;
 use App\Models\Package;
+use App\Models\Cage;
 
 class WebsiteController extends Controller
 {
     public function index()
     {
         $highlightAnnouncement = Announcement::where('status', 'Active')
-        ->latest()
-        ->first();
+            ->latest()
+            ->first();
+
+        // Berita lainnya (selain berita utama)
+        $otherAnnouncements = Announcement::where('status', 'Active')
+            ->when($highlightAnnouncement, function ($query) use ($highlightAnnouncement) {
+                $query->where('id', '!=', $highlightAnnouncement->id);
+            })
+            ->latest()
+            ->take(3)
+            ->get();
 
         $packages = Package::latest()
             ->take(3)
@@ -29,6 +39,7 @@ class WebsiteController extends Controller
 
         return view('website.home', compact(
             'highlightAnnouncement',
+            'otherAnnouncements',
             'packages',
             'animals'
         ));
@@ -75,17 +86,37 @@ class WebsiteController extends Controller
         );
     }
 
-    public function animalDetail(Animal $animal)
+    public function animalDetail($animal_code)
     {
-        $animal->load([
+        $animal = Animal::with([
             'category',
             'grade',
             'cage'
-        ]);
+        ])->where('animal_code', $animal_code)
+        ->firstOrFail();
 
         return view(
             'website.animal-detail',
             compact('animal')
+        );
+    }
+
+    public function cageDetail($cage_code)
+    {
+        $cage = Cage::with([
+            'animals.category',
+            'animals.grade',
+            'animals.cage'
+        ])
+        ->where('cage_code', $cage_code)
+        ->firstOrFail();
+
+        return view(
+            'website.cage-detail',
+            [
+                'cage' => $cage,
+                'animals' => $cage->animals
+            ]
         );
     }
 

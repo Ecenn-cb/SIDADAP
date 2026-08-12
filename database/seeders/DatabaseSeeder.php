@@ -17,17 +17,17 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
 
-            AnimalCategoriesSeeder::class,
+            // AnimalCategoriesSeeder::class,
             AnimalGradesSeeder::class,
 
             CagesSeeder::class,
 
             PackagesSeeder::class,
-            PriceSeeder::class,
+            // PriceSeeder::class,
 
-            AnnouncementSeeder::class,
+            // AnnouncementSeeder::class,
 
-            AnimalSeeder::class,
+            // AnimalSeeder::class,
         ]);
     }
 }

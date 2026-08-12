@@ -131,7 +131,11 @@
 
                 <div class="space-y-4 text-green-100">
 
-                    <p>📞 +62 812-3456-7890</p>
+                    <a href="https://wa.me/628157103052"
+                        target="_blank"
+                        class="block hover:text-white transition">
+                        📞 +62 815-7103-052
+                    </a>
 
                     <p>✉️ admin@temanaqiqah.com</p>
 

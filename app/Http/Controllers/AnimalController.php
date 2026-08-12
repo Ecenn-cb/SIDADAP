@@ -9,6 +9,8 @@ use App\Models\AnimalGrade;
 use App\Models\AnimalCategory;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\ActivityLogger;
+use Barryvdh\DomPDF\Facade\Pdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AnimalController extends Controller
 {
@@ -96,11 +98,19 @@ class AnimalController extends Controller
 
         }
 
-        $lastAnimal = Animal::latest('id')->first();
+        $lastAnimal = Animal::orderBy('animal_code', 'desc')->first();
 
-        $nextNumber = $lastAnimal
-            ? $lastAnimal->id + 1
-            : 1;
+        if ($lastAnimal) {
+
+            $lastNumber = (int) substr($lastAnimal->animal_code, 3);
+
+            $nextNumber = $lastNumber + 1;
+
+        } else {
+
+            $nextNumber = 1;
+
+        }
 
         $animalCode = 'KMB' . str_pad(
             $nextNumber,
@@ -125,7 +135,7 @@ class AnimalController extends Controller
 
             'image' => $image,
 
-            'qr_code' => null,
+            'qr_code' => '',
 
             'entry_date' => $request->entry_date,
 
@@ -134,6 +144,13 @@ class AnimalController extends Controller
             'description' => $request->description,
 
             'user_id' => auth()->id(),
+        ]);
+
+        $animal->update([
+            'qr_code' => route(
+                'website.animal.detail',
+                $animal->animal_code
+            )
         ]);
 
         ActivityLogger::log(
@@ -297,5 +314,32 @@ class AnimalController extends Controller
     public function detail(Animal $animal)
     {
         return view('animals.detail_index', compact('animal'));
+    }
+
+    public function qrcode(Animal $animal)
+    {
+        return view(
+            'animals.qrcode',
+            compact('animal')
+        );
+    }
+
+    public function downloadQr(Animal $animal)
+    {
+        $svg = QrCode::size(500)
+            ->margin(2)
+            ->generate(
+                route(
+                    'website.animal.detail',
+                    $animal->animal_code
+                )
+            );
+
+        return response($svg)
+            ->header('Content-Type', 'image/svg+xml')
+            ->header(
+                'Content-Disposition',
+                'attachment; filename="'.$animal->animal_code.'.svg"'
+            );
     }
 }

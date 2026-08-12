@@ -182,26 +182,65 @@
 
                             </div>
 
-                            <div class="col-span-2">
+                        <div class="col-span-2">
 
-                                <label class="text-gray-500 text-sm">
+                            <label class="text-gray-500 text-sm font-semibold">
 
-                                    QR Code
+                                QR Code Hewan
 
-                                </label>
+                            </label>
 
-                                <div class="mt-4">
+                            <div class="mt-4 bg-gray-50 border rounded-2xl p-6">
 
-                                    @if($animal->qr_code)
+                                <div class="flex flex-col md:flex-row items-center gap-8">
 
-                                        <img src="{{ asset('storage/'.$animal->qr_code) }}"
-                                            class="w-44">
+                                    <div>
 
-                                    @endif
+                                        {!! QrCode::size(220)
+                                            ->margin(2)
+                                            ->generate(
+                                                route(
+                                                    'website.animal.detail',
+                                                    $animal->animal_code
+                                                )
+                                            ) !!}
+
+                                    </div>
+
+                                    <div>
+
+                                        <h3 class="text-2xl font-bold">
+
+                                            {{ $animal->animal_code }}
+
+                                        </h3>
+
+                                        <p class="text-gray-500 mt-3">
+
+                                            Scan QR Code ini untuk melihat
+                                            profil lengkap hewan.
+
+                                        </p>
+
+                                        <div class="mt-6">
+
+                                            <a
+                                                href="{{ route('animals.download.qr',$animal->id) }}"
+                                                class="inline-flex items-center px-6 py-3 rounded-xl bg-[#0FA958] text-white hover:bg-green-700 transition">
+
+                                                Download QR
+
+                                            </a>
+
+                                        </div>
+
+                                    </div>
 
                                 </div>
 
                             </div>
+
+                        </div>
 
                             <div>
 

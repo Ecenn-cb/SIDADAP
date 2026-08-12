@@ -45,8 +45,15 @@ Route::get('/packages/{package}', [WebsiteController::class, 'packageDetail'])
 Route::get('/animals', [WebsiteController::class, 'animals'])
     ->name('website.animals');
 
-Route::get('/animals/{animal}', [WebsiteController::class, 'animalDetail'])
-    ->name('website.animal.detail');
+Route::get(
+    '/animals/{animal_code}',
+    [WebsiteController::class, 'animalDetail']
+)->name('website.animal.detail');
+
+Route::get(
+    '/cages/{cage_code}',
+    [WebsiteController::class, 'cageDetail']
+)->name('website.cage.detail');
 
 Route::get('/announcements', [WebsiteController::class, 'announcements'])
     ->name('website.announcements');
@@ -225,6 +232,10 @@ Route::prefix('dashboard')
             CageController::class
         );
 
+        Route::get(
+            'cages/{cage}/download-qr',
+            [CageController::class, 'downloadQr']
+        )->name('cages.download.qr');
     });
 
 
@@ -296,6 +307,16 @@ Route::prefix('dashboard')
             [AnimalController::class, 'detail']
         )->name('animals.detail');
 
+        // QR Code Hewan
+        Route::get(
+            '/animals/{animal}/qrcode',
+            [AnimalController::class, 'qrcode']
+        )->name('animals.qrcode');
+
+        Route::get(
+            'animals/{animal}/download-qr',
+            [AnimalController::class, 'downloadQr']
+        )->name('animals.download.qr');
     });
 
 

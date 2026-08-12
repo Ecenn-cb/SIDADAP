@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cages', function (Blueprint $table){
+
             $table->id();
+
+            // Kode Kandang
+            $table->string('cage_code')->unique();
+
             $table->string('name', 20);
 
             $table->unsignedBigInteger('user_id');
@@ -23,6 +28,7 @@ return new class extends Migration
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
+
         });
     }
 

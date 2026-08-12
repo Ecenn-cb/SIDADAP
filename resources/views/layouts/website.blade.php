@@ -36,6 +36,8 @@
         'resources/js/app.js'
     ])
 
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}">
+
 </head>
 
 <body class="bg-gray-50 font-[Poppins] text-gray-800">

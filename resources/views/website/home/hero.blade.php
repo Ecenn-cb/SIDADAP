@@ -110,13 +110,13 @@
 
                     <h3 class="text-3xl font-black text-[#0FA958]">
 
-                        1200+
+                        Aqiqah Terlaris
 
                     </h3>
 
                     <p class="text-gray-500">
 
-                        Pelanggan Puas
+                        Nomor 1 di Cianjur
 
                     </p>
 

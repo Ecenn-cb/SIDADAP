@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cage;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CageController extends Controller
 {
@@ -37,10 +38,67 @@ class CageController extends Controller
             'name' => 'required|max:20',
         ]);
 
-        Cage::create([
+        /*
+        |--------------------------------------------------------------------------
+        | Generate Cage Code
+        |--------------------------------------------------------------------------
+        */
+
+        $lastCage = Cage::select('cage_code')
+            ->orderByRaw(
+                "CAST(SUBSTRING(cage_code,4) AS UNSIGNED) DESC"
+            )
+            ->first();
+
+        if ($lastCage) {
+
+            $lastNumber = (int) substr(
+                $lastCage->cage_code,
+                3
+            );
+
+            $nextNumber = $lastNumber + 1;
+
+        } else {
+
+            $nextNumber = 1;
+
+        }
+
+        $cageCode = 'KDG' . str_pad(
+            $nextNumber,
+            3,
+            '0',
+            STR_PAD_LEFT
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Save Cage
+        |--------------------------------------------------------------------------
+        */
+
+        $cage = Cage::create([
+
+            'cage_code' => $cageCode,
+
             'name' => $request->name,
+
             'user_id' => auth()->id(),
+
         ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Activity Log
+        |--------------------------------------------------------------------------
+        */
+
+        ActivityLogger::log(
+            'Cage',
+            'Create',
+            'Menambahkan kandang "' . $cage->name . '"'
+        );
 
         return redirect()
             ->route('cages.index')
@@ -55,10 +113,13 @@ class CageController extends Controller
      */
     public function show(Cage $cage)
     {
-        return view(
-            'cages.show',
-            compact('cage')
-        );
+        $cage->load([
+            'user',
+            'animals.category',
+            'animals.grade',
+        ]);
+
+        return view('cages.show', compact('cage'));
     }
 
     /**
@@ -88,6 +149,12 @@ class CageController extends Controller
             'name' => $request->name,
         ]);
 
+        ActivityLogger::log(
+            'Cage',
+            'Update',
+            'Memperbarui kandang "' . $cage->name . '"'
+        );
+
         return redirect()
             ->route('cages.index')
             ->with(
@@ -108,6 +175,25 @@ class CageController extends Controller
             ->with(
                 'success',
                 'Kandang berhasil dihapus.'
+            );
+    }
+
+    public function downloadQr(Cage $cage)
+    {
+        $svg = QrCode::size(500)
+            ->margin(2)
+            ->generate(
+                route(
+                    'website.cage.detail',
+                    $cage->cage_code
+                )
+            );
+
+        return response($svg)
+            ->header('Content-Type', 'image/svg+xml')
+            ->header(
+                'Content-Disposition',
+                'attachment; filename="'.$cage->cage_code.'.svg"'
             );
     }
 }

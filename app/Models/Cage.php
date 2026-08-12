@@ -10,9 +10,15 @@ class Cage extends Model
     use HasFactory;
 
     protected $fillable = [
+
+        'cage_code',
+
         'name',
+
         'total_animals',
+
         'user_id',
+
     ];
 
     public function user()
@@ -22,6 +28,9 @@ class Cage extends Model
 
     public function animals()
     {
-        return $this->hasMany(Animal::class, 'cage_id');
+        return $this->hasMany(
+            Animal::class,
+            'cage_id'
+        );
     }
 }

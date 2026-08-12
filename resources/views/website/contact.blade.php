@@ -99,11 +99,11 @@
 
                             </h4>
 
-                            <p class="text-gray-500">
-
-                                +62 812-3456-7890
-
-                            </p>
+                            <a href="https://wa.me/628157103052"
+                                target="_blank"
+                                class="block hover:text-green-500 transition">
+                                +62 815-7103-052
+                            </a>
 
                         </div>
 
@@ -283,7 +283,7 @@
             </p>
 
             <a
-                href="https://wa.me/6281234567890"
+                href="https://wa.me/628157103052"
                 target="_blank"
                 class="inline-block mt-10 bg-white text-[#0FA958] px-10 py-4 rounded-2xl font-bold hover:scale-105 transition">
 

@@ -127,10 +127,10 @@
                                     <div class="flex justify-center gap-2">
 
                                         <a
-                                            href="{{ route('animals.index', ['cage' => $cage->id]) }}"
-                                            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl text-sm transition">
+                                            href="{{ route('cages.show', $cage->id) }}"
+                                            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-sm transition">
 
-                                            Lihat Hewan
+                                            Detail
 
                                         </a>
 
