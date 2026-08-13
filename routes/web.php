@@ -13,16 +13,13 @@ use App\Http\Controllers\CageController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AnimalReportController;
 
 use App\Models\Animal;
 use App\Models\Announcement;
 use App\Models\Package;
 use App\Models\Cage;
 use App\Models\User;
-
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -64,10 +61,6 @@ Route::get('/announcements/{announcement}', [WebsiteController::class, 'announce
 Route::get('/contact', [WebsiteController::class, 'contact'])
     ->name('website.contact');
 
-
-
-
-
 /*
 |--------------------------------------------------------------------------
 | DASHBOARD
@@ -99,10 +92,6 @@ Route::middleware([
 
 });
 
-
-
-
-
 /*
 |--------------------------------------------------------------------------
 | PROFILE
@@ -125,10 +114,6 @@ Route::middleware('auth')->group(function () {
 
 });
 
-
-
-
-
 /*
 |--------------------------------------------------------------------------
 | OWNER PAGE
@@ -149,9 +134,6 @@ Route::middleware([
 });
 
 
-
-
-
 /*
 |--------------------------------------------------------------------------
 | DASHBOARD CRUD
@@ -161,9 +143,6 @@ Route::middleware([
 Route::prefix('dashboard')
     ->middleware('auth')
     ->group(function () {
-
-
-
 
     /*
     |--------------------------------------------------------------------------
@@ -180,9 +159,6 @@ Route::prefix('dashboard')
 
     });
 
-
-
-
     /*
     |--------------------------------------------------------------------------
     | Animal Category
@@ -198,9 +174,6 @@ Route::prefix('dashboard')
 
     });
 
-
-
-
     /*
     |--------------------------------------------------------------------------
     | Animal Grade
@@ -215,9 +188,6 @@ Route::prefix('dashboard')
         );
 
     });
-
-
-
 
     /*
     |--------------------------------------------------------------------------
@@ -236,10 +206,8 @@ Route::prefix('dashboard')
             'cages/{cage}/download-qr',
             [CageController::class, 'downloadQr']
         )->name('cages.download.qr');
+
     });
-
-
-
 
     /*
     |--------------------------------------------------------------------------
@@ -286,9 +254,6 @@ Route::prefix('dashboard')
 
     });
 
-
-
-
     /*
     |--------------------------------------------------------------------------
     | Animal
@@ -317,10 +282,23 @@ Route::prefix('dashboard')
             'animals/{animal}/download-qr',
             [AnimalController::class, 'downloadQr']
         )->name('animals.download.qr');
+
     });
 
+    /*
+    |--------------------------------------------------------------------------
+    | Laporan Data Hewan
+    |--------------------------------------------------------------------------
+    */
 
+    Route::middleware('role:Owner|Admin')->group(function () {
 
+        Route::get(
+            'animal-reports',
+            [AnimalReportController::class, 'index']
+        )->name('animal-reports.index');
+
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -338,9 +316,5 @@ Route::prefix('dashboard')
     });
 
 });
-
-
-
-
 
 require __DIR__.'/auth.php';
