@@ -262,6 +262,11 @@ Route::prefix('dashboard')
 
     Route::middleware('role:Owner|Admin|Penjaga Kandang')->group(function () {
 
+        Route::get(
+            'animals/report/pdf',
+            [AnimalController::class, 'reportPdf']
+        )->name('animals.report.pdf');
+
         Route::resource(
             'animals',
             AnimalController::class

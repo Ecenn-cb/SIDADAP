@@ -361,4 +361,57 @@ class AnimalController extends Controller
                 'attachment; filename="'.$animal->animal_code.'.svg"'
             );
     }
+
+    public function reportPdf(Request $request)
+    {
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        // Data hewan masuk
+        $animalsIn = Animal::with([
+            'category',
+            'grade',
+            'cage'
+        ])
+        ->when($startDate, function ($query) use ($startDate) {
+            $query->whereDate('entry_date', '>=', $startDate);
+        })
+        ->when($endDate, function ($query) use ($endDate) {
+            $query->whereDate('entry_date', '<=', $endDate);
+        })
+        ->orderBy('entry_date', 'asc')
+        ->get();
+
+        // Data hewan keluar
+        $animalsOut = \App\Models\AnimalExitLog::with([
+            'category',
+            'grade',
+            'cage'
+        ])
+        ->when($startDate, function ($query) use ($startDate) {
+            $query->whereDate('exit_date', '>=', $startDate);
+        })
+        ->when($endDate, function ($query) use ($endDate) {
+            $query->whereDate('exit_date', '<=', $endDate);
+        })
+        ->orderBy('exit_date', 'asc')
+        ->get();
+
+        // Hewan yang masih tersedia
+        $animalsAvailable = Animal::count();
+
+        $pdf = Pdf::loadView('animals.report-pdf', compact(
+            'animalsIn',
+            'animalsOut',
+            'animalsAvailable',
+            'startDate',
+            'endDate'
+        ));
+
+        $pdf->setPaper('A4', 'landscape');
+
+        return $pdf->stream(
+            'Laporan_Data_Hewan.pdf'
+        );
+    }
 }

@@ -29,26 +29,37 @@ class AnimalExitLog extends Model
 
     public function animal()
     {
-        return $this->belongsTo(Animal::class, 'animal_id');
+        return $this->belongsTo(Animal::class);
     }
 
     public function category()
     {
-        return $this->belongsTo(AnimalCategory::class, 'category_id');
+        return $this->belongsTo(
+            AnimalCategory::class,
+            'category_id'
+        );
     }
 
     public function cage()
     {
-        return $this->belongsTo(Cage::class, 'cage_id');
+        return $this->belongsTo(
+            Cage::class,
+            'cage_id'
+        );
     }
 
     public function grade()
     {
-        return $this->belongsTo(AnimalGrade::class, 'grade_id');
+        return $this->belongsTo(
+            AnimalGrade::class,
+            'grade_id'
+        );
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(
+            User::class
+        );
     }
 }

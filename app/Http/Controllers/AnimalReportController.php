@@ -13,12 +13,12 @@ class AnimalReportController extends Controller
         // Default periode: bulan berjalan
         $startDate = $request->input(
             'start_date',
-            now()->startOfMonth()->toDateString()
+            now()->startOfMonth()->format('Y-m-d')
         );
 
         $endDate = $request->input(
             'end_date',
-            now()->toDateString()
+            now()->format('Y-m-d')
         );
 
         /*
@@ -32,12 +32,12 @@ class AnimalReportController extends Controller
             'grade',
             'cage'
         ])
-            ->whereBetween('entry_date', [
-                $startDate,
-                $endDate
-            ])
-            ->orderBy('entry_date', 'desc')
-            ->get();
+        ->whereBetween('entry_date', [
+            $startDate,
+            $endDate
+        ])
+        ->latest('entry_date')
+        ->get();
 
         /*
         |--------------------------------------------------------------------------
@@ -50,12 +50,12 @@ class AnimalReportController extends Controller
             'grade',
             'cage'
         ])
-            ->whereBetween('exit_date', [
-                $startDate,
-                $endDate
-            ])
-            ->orderBy('exit_date', 'desc')
-            ->get();
+        ->whereBetween('exit_date', [
+            $startDate,
+            $endDate
+        ])
+        ->latest('exit_date')
+        ->get();
 
         /*
         |--------------------------------------------------------------------------
@@ -67,22 +67,19 @@ class AnimalReportController extends Controller
 
         $totalOut = $animalsOut->count();
 
-        /*
-        | Hewan tersedia = seluruh hewan yang masih ada
-        | di tabel animals pada saat laporan dibuat.
-        */
+        // Hewan yang saat ini masih tersimpan di tabel animals
         $totalAvailable = Animal::count();
 
         return view(
             'animal-reports.index',
             compact(
-                'startDate',
-                'endDate',
                 'animalsIn',
                 'animalsOut',
                 'totalIn',
                 'totalOut',
-                'totalAvailable'
+                'totalAvailable',
+                'startDate',
+                'endDate'
             )
         );
     }

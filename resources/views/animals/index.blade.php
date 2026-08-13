@@ -43,6 +43,15 @@
 
                 </form>
 
+                <!-- Tombol Laporan -->
+                <a
+                    href="{{ route('animal-reports.index') }}"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-xl transition">
+
+                    📊 Laporan
+
+                </a>
+
                 <a
                     href="{{ route('animals.create') }}"
                     class="bg-[#0FA958] hover:bg-[#0d944f] text-white px-5 py-2 rounded-xl transition">
