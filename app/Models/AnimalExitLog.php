@@ -5,36 +5,32 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Animal extends Model
+class AnimalExitLog extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'animal_id',
         'animal_code',
         'name',
-
         'category_id',
         'cage_id',
         'grade_id',
-
-        'gender',
-        'weight',
-        'age',
-
-        'image',
-        'qr_code',
-
         'entry_date',
-
-        'status',
-        'description',
-
+        'exit_date',
+        'reason',
         'user_id',
     ];
 
     protected $casts = [
         'entry_date' => 'date',
+        'exit_date' => 'date',
     ];
+
+    public function animal()
+    {
+        return $this->belongsTo(Animal::class, 'animal_id');
+    }
 
     public function category()
     {
@@ -49,11 +45,6 @@ class Animal extends Model
     public function grade()
     {
         return $this->belongsTo(AnimalGrade::class, 'grade_id');
-    }
-
-    public function exitLogs()
-    {
-        return $this->hasMany(AnimalExitLog::class, 'animal_id');
     }
 
     public function user()

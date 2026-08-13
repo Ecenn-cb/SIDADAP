@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Animal;
+use App\Models\AnimalExitLog;
 use App\Models\Cage;
 use App\Models\AnimalGrade;
 use App\Models\AnimalCategory;
@@ -278,25 +279,43 @@ class AnimalController extends Controller
      */
     public function destroy(Animal $animal)
     {
+        // Simpan data hewan sebelum dihapus
+        AnimalExitLog::create([
+            'animal_id' => $animal->id,
+            'animal_code' => $animal->animal_code,
+            'name' => $animal->name,
+
+            'category_id' => $animal->category_id,
+            'cage_id' => $animal->cage_id,
+            'grade_id' => $animal->grade_id,
+
+            'entry_date' => $animal->entry_date,
+            'exit_date' => now()->toDateString(),
+
+            'reason' => 'Disembelih',
+
+            'user_id' => auth()->id(),
+        ]);
+
+        // Simpan nama untuk activity log
+        $animalName = $animal->name;
+
         // Hapus gambar
         if ($animal->image) {
-
             Storage::disk('public')
                 ->delete($animal->image);
-
         }
 
         // Hapus QR Code
         if ($animal->qr_code) {
-
             Storage::disk('public')
                 ->delete($animal->qr_code);
-
         }
 
-        $animalName = $animal->name;
+        // Hapus data hewan
         $animal->delete();
 
+        // Catat aktivitas user
         ActivityLogger::log(
             'Animal',
             'Delete',
@@ -307,7 +326,7 @@ class AnimalController extends Controller
             ->route('animals.index')
             ->with(
                 'success',
-                'Data hewan berhasil dihapus.'
+                'Data hewan berhasil dihapus dan dicatat sebagai hewan keluar.'
             );
     }
 
