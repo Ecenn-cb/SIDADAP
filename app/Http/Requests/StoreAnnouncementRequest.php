@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAnnouncementRequest extends FormRequest
@@ -15,10 +14,13 @@ class StoreAnnouncementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|max:50',
-            'description' => 'required|max:255',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'status' => 'required|in:active,inactive',
+            'title' => 'required|string|max:50',
+
+            'description' => 'required|string|max:255',
+
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+
+            'status' => 'required|in:Active,Inactive',
         ];
     }
 }

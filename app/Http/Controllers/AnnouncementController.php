@@ -36,8 +36,12 @@ class AnnouncementController extends Controller
      */
     public function store(StoreAnnouncementRequest $request)
     {
-        $image = $request->file('image')
-            ->store('announcements', 'public');
+        $image = null;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')
+                ->store('announcements', 'public');
+        }
 
         $announcement = Announcement::create([
             'title' => $request->title,

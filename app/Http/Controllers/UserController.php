@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'Owner')->get();
 
         return view(
             'users.create',
@@ -41,15 +41,15 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:100',
+            'full_name' => 'required|string|max:100',
             'username' => 'required|string|max:100|unique:users,username',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
-            'role' => 'required',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|exists:roles,name|not_in:Owner',
         ]);
 
         $user = User::create([
-            'full_name' => $request->name,
+            'full_name' => $request->full_name,
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),

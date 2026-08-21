@@ -34,6 +34,30 @@
                     @csrf
                     @method('PUT')
 
+                    @if ($errors->any())
+
+                        <div class="mb-6 bg-red-100 border border-red-300 text-red-700 px-5 py-4 rounded-xl">
+
+                            <p class="font-bold mb-2">
+                                Data gagal diperbarui:
+                            </p>
+
+                            <ul class="list-disc list-inside text-sm">
+
+                                @foreach ($errors->all() as $error)
+
+                                    <li>
+                                        {{ $error }}
+                                    </li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                    @endif
+
                     <div class="space-y-5">
 
                         <!-- Nama Hewan -->

@@ -26,19 +26,30 @@ class AnimalController extends Controller
             'cage'
         ]);
 
+        // Filter berdasarkan kandang
         if ($request->filled('cage')) {
             $animals->where('cage_id', $request->cage);
         }
 
+        // Filter berdasarkan grade
+        if ($request->filled('grade')) {
+            $animals->where('grade_id', $request->grade);
+        }
+
         $animals = $animals->get();
 
+        // Data kandang untuk filter
         $cages = Cage::orderByRaw(
             'CAST(SUBSTRING_INDEX(name, " ", -1) AS UNSIGNED)'
         )->get();
 
+        // Data grade untuk filter
+        $grades = AnimalGrade::orderBy('name')->get();
+
         return view('animals.index', compact(
             'animals',
-            'cages'
+            'cages',
+            'grades'
         ));
     }
 
@@ -201,76 +212,89 @@ class AnimalController extends Controller
      */
     public function update(Request $request, Animal $animal)
     {
-    $request->validate([
-        'name' => 'required|max:100',
+        $request->validate([
+            'name' => 'required|string|max:100',
 
-        'category_id' => 'required',
-        'grade_id' => 'required',
-        'cage_id' => 'required',
+            'category_id' => 'required',
+            'grade_id' => 'required',
+            'cage_id' => 'required',
 
-        'gender' => 'required',
+            'gender' => 'required',
 
-        'weight' => 'required|integer',
-        'age' => 'required|integer',
+            'weight' => 'required|integer',
+            'age' => 'required|integer',
 
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
 
-        'entry_date' => 'required',
+            'entry_date' => 'required|date',
 
-        'status' => 'required',
+            'status' => 'required',
 
-        'description' => 'nullable',
-    ]);
+            'description' => 'nullable|string',
+        ]);
 
-    if ($request->hasFile('image')) {
-
-        if ($animal->image) {
-            Storage::disk('public')
-                ->delete($animal->image);
-        }
-
-        $image = $request->file('image')
-            ->store('animals', 'public');
-
-    } else {
+        // =========================
+        // FOTO
+        // =========================
 
         $image = $animal->image;
 
-    }
+        if ($request->hasFile('image')) {
 
-    $animal->update([
-        'name' => $request->name,
+            // Hapus foto lama
+            if ($animal->image) {
+                Storage::disk('public')->delete($animal->image);
+            }
 
-        'category_id' => $request->category_id,
-        'grade_id' => $request->grade_id,
-        'cage_id' => $request->cage_id,
+            // Simpan foto baru
+            $image = $request->file('image')
+                ->store('animals', 'public');
+        }
 
-        'gender' => $request->gender,
 
-        'weight' => $request->weight,
-        'age' => $request->age,
+        // =========================
+        // UPDATE DATA
+        // =========================
 
-        'image' => $image,
+        $animal->update([
+            'name' => $request->name,
 
-        'entry_date' => $request->entry_date,
+            'category_id' => $request->category_id,
+            'grade_id' => $request->grade_id,
+            'cage_id' => $request->cage_id,
 
-        'status' => $request->status,
+            'gender' => $request->gender,
 
-        'description' => $request->description,
-    ]);
+            'weight' => $request->weight,
+            'age' => $request->age,
 
-    ActivityLogger::log(
-        'Animal',
-        'Update',
-        'Mengubah data hewan "' . $animal->name . '"'
-    );
+            'image' => $image,
 
-    return redirect()
-        ->route('animals.index')
-        ->with(
-            'success',
-            'Data hewan berhasil diperbarui.'
+            'entry_date' => $request->entry_date,
+
+            'status' => $request->status,
+
+            'description' => $request->description,
+        ]);
+
+
+        // =========================
+        // ACTIVITY LOG
+        // =========================
+
+        ActivityLogger::log(
+            'Animal',
+            'Update',
+            'Mengubah data hewan "' . $animal->name . '"'
         );
+
+
+        return redirect()
+            ->route('animals.index')
+            ->with(
+                'success',
+                'Data hewan berhasil diperbarui.'
+            );
     }
 
 

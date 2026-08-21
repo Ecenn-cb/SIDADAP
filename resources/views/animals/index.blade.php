@@ -14,12 +14,14 @@
 
                 <form
                     action="{{ route('animals.index') }}"
-                    method="GET">
+                    method="GET"
+                    class="flex items-center gap-3">
 
+                    <!-- Filter Kandang -->
                     <select
                         name="cage"
                         onchange="this.form.submit()"
-                        class="w-56 border border-gray-300 rounded-xl px-4 pr-10 py-2
+                        class="w-48 border border-gray-300 rounded-xl px-4 pr-10 py-2
                             focus:ring-2 focus:ring-[#0FA958]
                             focus:border-[#0FA958]">
 
@@ -41,7 +43,35 @@
 
                     </select>
 
+
+                    <!-- Filter Grade -->
+                    <select
+                        name="grade"
+                        onchange="this.form.submit()"
+                        class="w-48 border border-gray-300 rounded-xl px-4 pr-10 py-2
+                            focus:ring-2 focus:ring-[#0FA958]
+                            focus:border-[#0FA958]">
+
+                        <option value="">
+                            Semua Grade
+                        </option>
+
+                        @foreach($grades as $grade)
+
+                            <option
+                                value="{{ $grade->id }}"
+                                {{ request('grade') == $grade->id ? 'selected' : '' }}>
+
+                                {{ $grade->name }}
+
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
                 </form>
+
 
                 <!-- Tombol Laporan -->
                 <a
@@ -52,6 +82,8 @@
 
                 </a>
 
+
+                <!-- Tombol Tambah -->
                 <a
                     href="{{ route('animals.create') }}"
                     class="bg-[#0FA958] hover:bg-[#0d944f] text-white px-5 py-2 rounded-xl transition">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cage;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Helpers\ActivityLogger;
 
 class CageController extends Controller
 {
@@ -35,7 +36,7 @@ class CageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:20',
+            'name' => 'required|string|max:20',
         ]);
 
         /*
@@ -119,7 +120,10 @@ class CageController extends Controller
             'animals.grade',
         ]);
 
-        return view('cages.show', compact('cage'));
+        return view(
+            'cages.show',
+            compact('cage')
+        );
     }
 
     /**
@@ -142,7 +146,7 @@ class CageController extends Controller
     )
     {
         $request->validate([
-            'name' => 'required|max:20',
+            'name' => 'required|string|max:20',
         ]);
 
         $cage->update([
@@ -178,6 +182,9 @@ class CageController extends Controller
             );
     }
 
+    /**
+     * Download QR Code.
+     */
     public function downloadQr(Cage $cage)
     {
         $svg = QrCode::size(500)
@@ -193,7 +200,7 @@ class CageController extends Controller
             ->header('Content-Type', 'image/svg+xml')
             ->header(
                 'Content-Disposition',
-                'attachment; filename="'.$cage->cage_code.'.svg"'
+                'attachment; filename="' . $cage->cage_code . '.svg"'
             );
     }
 }

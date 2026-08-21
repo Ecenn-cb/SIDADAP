@@ -1,85 +1,209 @@
 <x-app-layout>
 
-    <div class="py-6 px-6">
+    <div class="py-8 px-6">
 
-        <h1 class="text-2xl font-bold mb-4">
-            Tambah Pengumuman
-        </h1>
+        <div class="max-w-3xl mx-auto">
 
-        <form
-            action="{{ route('announcements.store') }}"
-            method="POST"
-            enctype="multipart/form-data">
+            <!-- Header -->
+            <div class="mb-8">
 
-            @csrf
+                <h1 class="text-3xl font-bold text-gray-800">
+                    Tambah Pengumuman
+                </h1>
 
-            <div class="mb-4">
-
-                <label>Judul</label>
-
-                <input
-                    type="text"
-                    name="title"
-                    value="{{ old('title') }}"
-                    class="w-full border rounded">
-
-                @error('title')
-                    <p class="text-red-500">
-                        {{ $message }}
-                    </p>
-                @enderror
+                <p class="text-gray-500 mt-2">
+                    Tambahkan berita atau informasi terbaru untuk ditampilkan kepada masyarakat.
+                </p>
 
             </div>
 
-            <div class="mb-4">
 
-                <label>Deskripsi</label>
+            <!-- Card -->
+            <div class="bg-white rounded-3xl shadow-lg p-8">
 
-                <textarea
-                    name="description"
-                    class="w-full border rounded">{{ old('description') }}</textarea>
+                <form
+                    action="{{ route('announcements.store') }}"
+                    method="POST"
+                    enctype="multipart/form-data">
+
+                    @csrf
+
+
+                    <div class="space-y-6">
+
+
+                        <!-- Judul -->
+                        <div>
+
+                            <label
+                                for="title"
+                                class="block mb-2 font-semibold text-gray-700">
+
+                                Judul Pengumuman
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                value="{{ old('title') }}"
+                                placeholder="Masukkan judul pengumuman..."
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]"
+                                required>
+
+                            @error('title')
+
+                                <p class="text-red-500 text-sm mt-2">
+                                    {{ $message }}
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+
+                        <!-- Deskripsi -->
+                        <div>
+
+                            <label
+                                for="description"
+                                class="block mb-2 font-semibold text-gray-700">
+
+                                Deskripsi
+
+                            </label>
+
+                            <textarea
+                                id="description"
+                                name="description"
+                                rows="7"
+                                placeholder="Masukkan isi pengumuman..."
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]"
+                                required>{{ old('description') }}</textarea>
+
+                            @error('description')
+
+                                <p class="text-red-500 text-sm mt-2">
+                                    {{ $message }}
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+
+                        <!-- Gambar -->
+                        <div>
+
+                            <label
+                                for="image"
+                                class="block mb-2 font-semibold text-gray-700">
+
+                                Gambar Pengumuman
+
+                            </label>
+
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/jpeg,image/png,image/jpg"
+                                class="w-full rounded-xl border border-gray-300 px-4 py-3
+                                       focus:border-[#0FA958] focus:ring-[#0FA958]">
+
+                            <p class="text-sm text-gray-500 mt-2">
+                                Format: JPG, JPEG, PNG. Maksimal 2 MB.
+                            </p>
+
+                            @error('image')
+
+                                <p class="text-red-500 text-sm mt-2">
+                                    {{ $message }}
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+
+                        <!-- Status -->
+                        <div>
+
+                            <label
+                                for="status"
+                                class="block mb-2 font-semibold text-gray-700">
+
+                                Status
+
+                            </label>
+
+                            <select
+                                id="status"
+                                name="status"
+                                class="w-full rounded-xl border-gray-300 focus:border-[#0FA958] focus:ring-[#0FA958]"
+                                required>
+
+                                <option
+                                    value="Active"
+                                    {{ old('status', 'Active') == 'Active' ? 'selected' : '' }}>
+
+                                    Active
+
+                                </option>
+
+                                <option
+                                    value="Inactive"
+                                    {{ old('status') == 'Inactive' ? 'selected' : '' }}>
+
+                                    Inactive
+
+                                </option>
+
+                            </select>
+
+                            @error('status')
+
+                                <p class="text-red-500 text-sm mt-2">
+                                    {{ $message }}
+                                </p>
+
+                            @enderror
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Tombol -->
+                    <div class="flex justify-end gap-3 mt-8">
+
+                        <a
+                            href="{{ route('announcements.index') }}"
+                            class="px-6 py-3 rounded-xl border border-gray-300
+                                   text-gray-700 hover:bg-gray-100 transition">
+
+                            Batal
+
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="px-6 py-3 rounded-xl bg-[#0FA958]
+                                   hover:bg-[#0d944f] text-white
+                                   font-semibold transition">
+
+                            Simpan Pengumuman
+
+                        </button>
+
+                    </div>
+
+                </form>
 
             </div>
 
-            <div class="mb-4">
-
-                <label>Gambar</label>
-
-                <input
-                    type="file"
-                    name="image">
-
-            </div>
-
-            <div class="mb-4">
-
-                <label>Status</label>
-
-                <select
-                    name="status"
-                    class="w-full border rounded">
-
-                    <option value="active">
-                        Active
-                    </option>
-
-                    <option value="inactive">
-                        Inactive
-                    </option>
-
-                </select>
-
-            </div>
-
-            <button
-                type="submit"
-                class="bg-blue-500 text-white px-4 py-2 rounded">
-
-                Simpan
-
-            </button>
-
-        </form>
+        </div>
 
     </div>
 

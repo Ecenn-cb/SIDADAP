@@ -6,6 +6,8 @@ use App\Models\Animal;
 use App\Models\Announcement;
 use App\Models\Package;
 use App\Models\Cage;
+use Illuminate\Http\Request;
+use App\Models\AnimalGrade;
 
 class WebsiteController extends Controller
 {
@@ -72,17 +74,29 @@ class WebsiteController extends Controller
         );
     }
 
-    public function animals()
+    public function animals(Request $request)
     {
         $animals = Animal::with([
             'category',
             'grade',
             'cage'
-        ])->latest()->get();
+        ]);
+
+        // Filter berdasarkan grade
+        if ($request->filled('grade')) {
+            $animals->where('grade_id', $request->grade);
+        }
+
+        $animals = $animals->latest()->get();
+
+        $grades = AnimalGrade::orderBy('name')->get();
 
         return view(
             'website.animals',
-            compact('animals')
+            compact(
+                'animals',
+                'grades'
+            )
         );
     }
 
